@@ -1,0 +1,18 @@
+可继承样式
+font-size,font-weight,line-height,color,cursor等
+不可继承
+display,margin,border,padding,height等
+
+行内块级
+input,img
+行内
+a,span
+块级
+p,div,header,footer,aside,article,ul
+空（void）
+br（换行符） hr（分隔线符号） 
+
+box-sizing:content-box 默认的情况
+
+box-sizing:border-box 内容缩水让路边框大小，也就是整个宽度大小是已经包括border的，整个元素的宽度在你掌握中。
+
