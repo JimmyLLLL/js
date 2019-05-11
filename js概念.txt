@@ -25,3 +25,14 @@ var obj2 = {
 var bar = foo.call( obj1 ); 意思：在obj1的环境下调用foo，反回了（a）=> {console.log(this.a)}
 bar.call( obj2 ); // 2,不是 3！ 意思：(a)=>{console.log(this.a)}，你一定要在我obj2的环境下执行
 如果不是箭头函数的情况下，这时this指向最后调用这个函数所处的对象，a就是3了，而箭头函数定义时this指向就已经指向foo了，foo执行环境是obj1,所以还是2
+
+
+
+函数声明提升优于变量声明提升
+
+js原型链的理解
+所有对象（是所有对象，很重要，除了特殊的）指向它的原型对象（prototype）
+let obj = new test()
+ok，我们可以有obj._proto_ === test.prototype
+test.prototype.construtor === test
+指来指去有什么趣...
