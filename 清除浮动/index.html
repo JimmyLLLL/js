@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+.son{
+    width: 60px;
+    height: 60px;
+    background: green;
+    margin-left:10px;
+    float: left;
+}
+
+.wrapper{
+    background: purple;
+}
+
+.clearFix::after{
+    display:block;
+    clear:both;
+    content:"";
+}
+
+</style>
+<body>
+    <div class="wrapper clearFix">
+        <div class="son"></div>
+        <div class="son"></div>
+        <div class="son"></div>
+        <div class="son"></div>
+    </div>
+</body>
+</html>
+
+
+<!--
+
+.clearFix::after{
+    display:block;
+    clear:both;
+    content:"";
+}
+
+之中，display:block,clear:both,content:''
+三个一个不能少，你当然可以加入一些visibility或者height:0
+来避免幽灵节点带来的副作用
+
+-->
+
+
+<!--
+/*清除浮动的概念是让父级获得高度，仅此而已*/
+
+
+你当然可以写成这样的结构
+<div class="wrapper">
+        <div class="son"></div>
+        <div class="son"></div>
+        <div class="son"></div>
+        <div class="son"></div>
+        <div class="clearFix"></div>
+</div>
+这样会更占地方
+
+-->
+
+
+<!--
+    其他方法：
+    父级overflow:hidden
+    父级设定高度（暴力无脑，本来清除浮动就是为了解决父元素高度自动获取问题）
+    父级一起浮动
+-->

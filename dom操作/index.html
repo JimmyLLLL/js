@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="hello" id="world" name="test"></div>
+    <div class="hello" id="world"name="test"></div>
+</body>
+<script>
+    console.log(document.getElementById('world'))
+    //上面直接输出dom节点
+    console.log(document.getElementsByClassName('hello'))
+    //上面输出HTMLCollection的数组，里面有两个dom
+    console.log(document.getElementsByName('test'))
+    //上面输出nodelist的数组，里面有两个dom
+    console.log(document.querySelector('.hello'))
+    //上面直接输出节点
+
+    //模拟实现
+    /*
+        <div id="test">
+            <span>Hello, World</span>
+        </div>
+        插入第一个div中
+    */
+   let test = document.createElement('div')
+   test.setAttribute('id','test')
+   let span = document.createElement('span')
+   span.innerHTML = 'Hello,World'
+   test.appendChild(span)
+   let dom = document.getElementById('world')
+   dom.appendChild(test)
+   
+
+   //继续插入一个节点以继续讲述后面的dom操作
+   let jimmy = document.createElement('span')
+   jimmy.innerHTML='jimmy'
+   jimmy.setAttribute('id','jimmy')
+   dom.appendChild(jimmy)
+
+
+   //某个dom.nextSibling获取元素之后的兄弟节点，会得到注释文本、空白符号，个人认为非常没卵用
+   //某个dom.nextElementSibling，只获标签，嗯，有点用
+   console.log(test.nextElementSibling) //输出jimmy的dom标签
+
+
+   /*
+   对应的，你可以dom.removeChild移除子节点
+   你也可以把nextSibling换成previousSibling，就是变成了从前面取
+   你也可以dom.removeAttribute移除属性
+   虽然看起来好像暂时没什么卵用，但是大神们总是可以榨干一门语言的语法细节，当我们以后达到他们一样的高度的时候应该可以理解js开发者为什么弄了这么多接口了
+   */
+</script>
+</html>

@@ -1,0 +1,27 @@
+七种数据类型
+Boolean Null Undefined Number String Symbol Object
+
+null和undefined的差异
+首先有一个概念就是null更像是人工做的错误，而undefined是意料之外的错误
+相同：if语句中，值都为false
+不同：null转数字为0，而undefined为NaN
+
+this指向：
+1.非箭头函数，指向最后调用这个函数所处的对象！
+2.箭头函数，定义的时候已经确定了this指向箭头函数所处的环境
+function foo(){
+    // 返回一个箭头函数
+    return (a)=>{
+        // this 继承自 foo()
+        console.log( this.a );
+    };
+}
+var obj1 = {
+    a:2
+};
+var obj2 = {
+    a:3
+};
+var bar = foo.call( obj1 ); 意思：在obj1的环境下调用foo，反回了（a）=> {console.log(this.a)}
+bar.call( obj2 ); // 2,不是 3！ 意思：(a)=>{console.log(this.a)}，你一定要在我obj2的环境下执行
+如果不是箭头函数的情况下，这时this指向最后调用这个函数所处的对象，a就是3了，而箭头函数定义时this指向就已经指向foo了，foo执行环境是obj1,所以还是2

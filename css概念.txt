@@ -16,3 +16,7 @@ box-sizing:content-box 默认的情况
 
 box-sizing:border-box 内容缩水让路边框大小，也就是整个宽度大小是已经包括border的，整个元素的宽度在你掌握中。
 
+样式权重的优先级
+!important>行内样式>id>class>tag
+!important最重要，曾经被问倒...
+
