@@ -5,7 +5,7 @@ function bubbleSort(arr){
         for(let j=0;j<i;j++){
             if(arr[j]>arr[j+1]){
                 pos = j; //记录交换的位置
-                let tmp = arr[j];
+                let temp = arr[j];
                 arr[j] = arr[j+1];
                 arr[j+1] = temp;
             }
