@@ -15,3 +15,11 @@ function type(obj){
 }
 
 
+//仅仅判断是否
+//es6封装法 利用闭包存好type
+const isType = type => target => `[object ${type}]` === Object.prototype.toString.call(target)
+
+//定制
+
+const isArray = isType('Array')
+console.log(isArray([]))  //true
