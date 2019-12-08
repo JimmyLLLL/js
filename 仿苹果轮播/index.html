@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>apple carousel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    .url1,.url5{
+        background:url('./appleAdJPG/01.jpg');
+    }
+    .url2{
+        background:url('./appleAdJPG/02.jpg')
+    }
+    .url3{
+        background:url('./appleAdJPG/03.jpg')
+    }
+    .url4{
+        background:url('./appleAdJPG/04.jpg')
+    }
+    .photo{
+        background-repeat: no-repeat;
+        width: 432px;
+        height:270px;
+        background-size:100% 100%;
+        display: inline-block;
+    }
+    .insideWrapper{
+        position: relative;
+        width: 2160px;
+        font-size:0;
+        transition: left 0.3s;
+    }
+    .clearTransition{
+        transition: left 0s; 
+    }
+    .outsideWrapper{
+        overflow: hidden;
+        width: 432px;
+        position: relative;
+    }
+    .slideBar{
+        position: absolute;
+        top: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .outSideBar{
+        width: 30px;
+        height: 1px;
+        background: white;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .progressBar{
+        width: 0px;
+        height: 1px;
+        background: green;
+        visibility: hidden;
+    }
+    .progressBarActive{
+        transition-timing-function: linear;
+        transition: width 3s;
+        width: 30px;
+        visibility: visible;
+    }
+</style>
+<body>
+    <div class="outsideWrapper">
+        <div class="insideWrapper" style="left: 0px;">
+            <div class="photo url1"></div>
+            <div class="photo url2"></div>
+            <div class="photo url3"></div>
+            <div class="photo url4"></div>
+            <div class="photo url5"></div>
+        </div>
+        <div class="slideBar">
+            <div class="outSideBar" index=0>
+                <div class="progressBar"></div>
+            </div>
+            <div class="outSideBar" index=1>
+                <div class="progressBar"></div>
+            </div>
+            <div class="outSideBar" index=2>
+                <div class="progressBar"></div>
+            </div>
+            <div class="outSideBar" index=3>
+                <div class="progressBar"></div>
+            </div>
+        </div> 
+    </div>
+
+</body>
+<script>
+    let timmer = null
+    window.onload = function(){
+        const insideWrapper = document.getElementsByClassName('insideWrapper')[0]
+        const progressBar = document.getElementsByClassName('progressBar')
+        const slideBarDom = document.getElementsByClassName('slideBar')[0]        
+        const firstProgressBar = progressBar[0]
+        firstProgressBar.classList.add("progressBarActive");
+        let index = 0
+
+        function addTimmer(){
+            timmer = setInterval(() => {
+                index === 4 ? progressBar[0].classList.remove("progressBarActive"):progressBar[index].classList.remove("progressBarActive")
+                if(index===4){
+                    insideWrapper.classList.remove('clearTransition')
+                    insideWrapper.style.left = '-432px'
+                    index = 1
+                }else{
+                    insideWrapper.style.left = -432*(index+1) + 'px'
+                    if(index+1===4){
+                        setTimeout(() => {
+                            insideWrapper.classList.add('clearTransition')
+                            insideWrapper.style.left = '0px'                            
+                        }, 1000);
+                    }
+                    index++
+                }
+                index === 4 ? progressBar[0].classList.add("progressBarActive") : progressBar[index].classList.add("progressBarActive")
+            }, 3000);
+        }
+
+        addTimmer()
+
+
+        slideBarDom.addEventListener("click", function(e) {
+            if(e.target.className === 'outSideBar'){
+                index===4?progressBar[0].classList.remove('progressBarActive'):progressBar[index].classList.remove('progressBarActive')
+                clearTimeout(timmer)
+                index = +e.target.getAttribute('index')
+                progressBar[index].classList.add("progressBarActive")
+                insideWrapper.style.left = -432*index + 'px'
+                addTimmer() 
+            }
+        },false);
+    }
+
+
+</script>
+</html>

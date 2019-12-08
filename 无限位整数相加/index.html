@@ -1,0 +1,64 @@
+<html>
+    <body>
+        <div>超长整数相加</div>
+    </body>
+    <script>
+        function add(a,b){
+            const aArrRev = a.split('').reverse()
+            const bArrRev = b.split('').reverse()
+            let result = aArrRev.length > bArrRev.length ? addHelper(aArrRev,bArrRev): addHelper(bArrRev,aArrRev)
+            
+            return result.reverse().join('')
+        }
+
+        function addHelper(maxArrRev,minArrRev){
+            let addOne = false
+            const maxArrLen = maxArrRev.length
+            minArrRev.forEach((item,index) => {
+                let minAddMax
+                if(addOne){
+                    minAddMax = (+maxArrRev[index]) + (+item) + 1;
+                    addOne = false
+                }else{
+                    minAddMax = (+maxArrRev[index]) + (+item)
+                }
+
+                
+                if(minAddMax >= 10){
+                    maxArrRev[index] = minAddMax-10
+                    addOne = true
+                }else{
+                    maxArrRev[index] = minAddMax
+                }
+            });
+            if(addOne){
+                if(maxArrRev.length===minArrRev.length){
+                    maxArrRev.push(1)
+                }else{
+                    for(let i=minArrRev.length;i<maxArrLen;i++){
+                        //console.log(maxArrRev[i])
+                        if(addOne){
+                            const afterAdd = (+maxArrRev[i]) + 1
+                            if(afterAdd === 10){
+                                
+                                maxArrRev[i] = 0
+                                if(i=== maxArrRev.length-1){
+                                    maxArrRev.push(1)
+                                }
+                            }else{
+                                maxArrRev[i] = afterAdd
+                                addOne = false                                
+                            }
+
+                        }else{
+                            break
+                        }
+                    }
+                }
+            }
+            return maxArrRev
+        }
+
+        console.log(add('999991238831231238123','9999912391231299999910101'))
+    </script>
+</html>

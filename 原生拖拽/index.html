@@ -1,0 +1,51 @@
+<html>
+    <style>
+        .rect{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: blue;
+            left: 0;
+            top: 0;
+        }
+    </style>
+    <body>
+        <div class="rect"></div>
+        <script>
+
+            function drawAble(dom){
+                const coordinateObj = {
+                    offsetX:0,
+                    offsetY:0,
+                    mouseX:0,
+                    mouseY:0
+                }
+                dom.onmousedown = function handleMouseDown(event){
+                    coordinateObj.offsetX = event.offsetX
+                    coordinateObj.offsetY = event.offsetY
+                    let timmer = null
+                    document.onmousemove = function handleMouseMove(event){
+                        coordinateObj.mouseX = event.clientX
+                        coordinateObj.mouseY = event.clientY  
+                        movePos(dom)                       
+                    }
+                    document.onmouseup = function(event){
+                        document.onmousemove = null;
+                        document.onmouseup = null
+                    }
+
+                }
+                function movePos(dom){
+                    dom.style.left = parseInt(coordinateObj.mouseX) - parseInt(coordinateObj.offsetX) + 'px'
+                    dom.style.top = parseInt(coordinateObj.mouseY) - parseInt(coordinateObj.offsetY) + 'px'
+                }              
+
+            }
+
+            const rectDom = document.getElementsByClassName('rect')[0]
+            drawAble(rectDom)
+
+
+        </script>
+    </body>
+</html>
