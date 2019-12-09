@@ -1,0 +1,42 @@
+<html>
+</html>
+<script>
+//  getSolvetion([2, 3, 6, 7],7)
+/*
+[
+  [7],
+  [2,2,3]
+]
+*/
+function getSolvetion(array,target){
+    const addArray = []
+    const result = []
+
+    const dfs = (startIndex) =>{
+        const total = addArray.reduce((cur,bef)=>{
+            return cur+bef
+        },0)
+        if(total===target){
+            result.push([...addArray])
+            return
+        }
+        if(total > target){
+            return
+        }
+
+        for(let i=startIndex;i<array.length;i++){
+            addArray.push(array[i])
+            dfs(i)
+            addArray.pop(array[i])
+        }
+    }
+
+    dfs(0)
+    return result
+}
+
+
+console.log(getSolvetion([2, 3, 6, 7],7))
+
+
+</script>

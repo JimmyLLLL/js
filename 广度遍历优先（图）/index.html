@@ -1,0 +1,64 @@
+<html>
+<script>
+    class Graph{
+        constructor(){
+            this.AdjList = new Map()
+        }
+        addVertex(vertex){
+            if(!this.AdjList.has(vertex)){
+                this.AdjList.set(vertex,[])
+            }
+        }
+
+        BFS(startVertex){
+            const alreadyRead = {}
+            for(let key of this.AdjList.keys()) {
+                alreadyRead[key] = false
+            }
+
+            const queue = [startVertex]
+
+            while(queue.length){
+                let current = queue.shift()
+                console.log(current)
+                let arr = this.AdjList.get(current)
+                for(let edge of arr){
+                    if(!alreadyRead[edge]){
+                        alreadyRead[edge] = true
+                        queue.push(edge)
+                    }
+                }                
+            }
+        }
+
+        addEdge(vertex,node){
+            if(this.AdjList.has(vertex)){
+                if(this.AdjList.has(node)){
+                    let arr = this.AdjList.get(vertex)
+                    if(!arr.includes(node)){
+                        arr.push(node)
+                    }
+                }else{
+                    throw 'can not add non-exitsting vertex'
+                }
+            }else{
+                throw 'do not have' + vertex + 'vertex'
+            }
+        }
+    }
+    let graph = new Graph()
+    graph.addVertex('a')
+    graph.addVertex('b')
+    graph.addVertex('c')
+    graph.addVertex('d')
+    graph.addVertex('f')
+    graph.addEdge('a','b')
+    graph.addEdge('a','c')
+    graph.addEdge('a','f')
+    graph.addEdge('b','d')
+    graph.addEdge('d','f')
+
+    console.log(graph)
+    graph.BFS('a')
+</script>
+</html>

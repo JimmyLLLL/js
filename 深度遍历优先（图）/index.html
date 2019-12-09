@@ -1,0 +1,60 @@
+<html>
+<script>
+    class Graph{
+        constructor(){
+            this.AdjList = new Map()
+        }
+        addVertex(vertex){
+            if(!this.AdjList.has(vertex)){
+                this.AdjList.set(vertex,[])
+            }
+        }
+
+        DFS(vertex){
+            const alreadyRead = {}
+            for(let edge of this.AdjList.keys()){
+                alreadyRead[edge] = false
+            }
+
+            const DFSHelper = (vertexSub)=>{
+                if(!alreadyRead[vertexSub]){
+                    alreadyRead[vertexSub] = true
+                    console.log(vertexSub)                    
+                }
+                for(let edge of this.AdjList.get(vertexSub)){
+                    DFSHelper(edge)
+                }
+            }
+            DFSHelper(vertex)
+        }
+
+        addEdge(vertex,node){
+            if(this.AdjList.has(vertex)){
+                if(this.AdjList.has(node)){
+                    let arr = this.AdjList.get(vertex)
+                    if(!arr.includes(node)){
+                        arr.push(node)
+                    }
+                }else{
+                    throw 'can not add non-exitsting vertex'
+                }
+            }else{
+                throw 'do not have' + vertex + 'vertex'
+            }
+        }
+    }
+    let graph = new Graph()
+    graph.addVertex('a')
+    graph.addVertex('b')
+    graph.addVertex('c')
+    graph.addVertex('d')
+    graph.addVertex('f')
+    graph.addEdge('a','b')
+    graph.addEdge('a','c')
+    graph.addEdge('a','f')
+    graph.addEdge('b','d')
+    graph.addEdge('d','f')
+    graph.DFS('a')
+
+</script>
+</html>

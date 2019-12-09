@@ -1,0 +1,32 @@
+<html>
+    <script>
+       (()=>{
+            function a(){
+                console.trace('a')
+            }
+            function b(){
+                a()
+            }
+            b()
+        })()
+        let a = {
+            b:11,
+            c:12,
+            f:{
+                k:999
+            }
+        }
+        console.table(a)
+        for(let i=0;i<10;i++){
+            console.log('hi')
+            debugger
+            block()
+        }
+        function block(){
+            debugger
+        }
+        
+        //Chrome中可以临时修改JS文件中的内容，保存（Ctrl+S）就可以立即生效
+        
+    </script>
+</html>
