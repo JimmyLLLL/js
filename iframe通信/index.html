@@ -1,0 +1,11 @@
+<html>
+    <body>
+        <iframe src="./iframe1.html"></iframe>
+    </body>
+    <script>
+    function receiveMessage(e) {
+        console.log(e.data)
+    }
+    window.addEventListener("message", receiveMessage, false);
+    </script>
+</html>

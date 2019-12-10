@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="app">
+            {{ test }}
+        </div>
+        <input type="text" onkeyup="handleInputChange(event)"></input>
+    </body>
+    <script>
+        let obj = {
+            test:'hello'
+        }
+
+        
+        //init
+        function handleTemplate(nodeID,obj){
+            let target = document.getElementById(nodeID).innerHTML
+            target = target.match(/{{.*}}/).input.replace(/{{|}}/g,"").trim()
+            const value = obj[target]
+            document.getElementById(nodeID).innerHTML = value
+        }
+        handleTemplate('app',obj)
+
+
+
+
+        class watcher{
+            constructor(obj,key,cb){
+                this.key = key
+                Dep.target = this
+                obj[key]
+                Dep.target = null
+                this.dep.addCB(cb)
+            }
+            addDep(dep){
+                this.dep = dep
+            }
+        }
+
+        class Dep{
+            constructor(obj,key){
+                this.cb = []
+            }
+            notify(){
+                this.cb.forEach((func)=>{
+                    func()
+                })
+            }
+            addDep(){
+                if(Dep.target){
+                    Dep.target.addDep(this)
+                }
+            }
+            addCB(cb){
+                this.cb.push(cb)
+            }
+        }
+        Dep.target = null
+
+        
+
+
+
+        function reactObj(obj){
+            const dep = new Dep()
+            const loopReact = function(obj){
+                for(let key of Object.keys(obj)){
+                    const dep = new Dep()
+                    Object.defineProperty(obj,key,{
+                        get(){
+                            dep.addDep()
+                            return this["_"+key]
+                        },
+                        set(newValue){
+                            this["_"+key] = newValue
+                            dep.notify()
+                        }
+                    })                    
+                }
+
+            }
+            loopReact(obj)
+            return obj
+        }
+
+        obj = reactObj(obj)
+
+        new watcher(obj,'test',()=>{
+            document.getElementById("app").innerHTML = obj["test"]
+        })
+
+        function handleInputChange(){
+            obj.test = event.target.value
+        }
+
+
+
+    </script>
+</html>

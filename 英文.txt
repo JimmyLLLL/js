@@ -1,0 +1,7 @@
+fatigue adj 疲劳的
+trampoline n 蹦床
+accumulator n累加器，蓄电池
+sensation n 感觉，感动
+raster n 光栅
+vertex n 顶点 
+mode n众数

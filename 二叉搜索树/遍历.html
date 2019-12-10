@@ -1,0 +1,65 @@
+<html>
+    <script>
+        class Node{
+            constructor(value){
+                this.value = value
+                this.left = null
+                this.right = null
+            }
+        }
+        function insertNodeHelper(node,newNode){
+            if(node.value<newNode.value){
+                if(node.right===null){
+                    node.right = newNode
+                }else{
+                    insertNodeHelper(node.right,newNode)
+                }
+            }else{
+                if(node.left===null){
+                    node.left = newNode
+                }else{
+                    insertNodeHelper(node.left,newNode)
+                }
+            }
+        }
+        function insertNode(root,newNode){
+            insertNodeHelper(root,newNode)
+        }
+        let a4 = new Node(4)
+        let a5 = new Node(5)
+        let a3 = new Node(3)
+        let a6 = new Node(6)
+        insertNode(a5,a3)
+        insertNode(a5,a4)
+        insertNode(a5,a6)
+
+        function preOrder(root){
+            if(root){
+                console.log(root.value)
+                preOrder(root.left)
+                preOrder(root.right)
+            }
+        }
+        function inOrder(root){
+            if(root){
+                inOrder(root.left)
+                console.log(root.value)
+                inOrder(root.right)
+            }
+        }
+        function postOrder(root){
+            if(root){
+                postOrder(root.left)
+                postOrder(root.right)
+                console.log(root.value)
+            }  
+        }
+        console.log(a5)
+        console.log(postOrder(a5))
+
+
+
+
+        
+    </script>
+</html>

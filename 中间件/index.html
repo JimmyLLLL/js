@@ -1,0 +1,30 @@
+<html>
+    <script>
+        function compose(arrfunc){
+            if(!arrfunc.length) return
+            const arr = arrfunc
+            function next(){
+                if(arr.length){
+                    arr.shift()(next)
+                }
+            }
+            arr.shift()(next)
+        }
+        function a(next){
+            console.log('a first')
+            next()
+            console.log('a last')
+        }
+        function b(next){
+            console.log('b first')
+            next()
+            console.log('b last')
+        }
+        function c(next){
+            console.log('c first')
+            next()
+            console.log('c last')
+        }
+        compose([a,b,c])
+    </script>
+</html>

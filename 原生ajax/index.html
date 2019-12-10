@@ -1,0 +1,19 @@
+<html>
+    <script>
+        let xhr  = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState===4){
+                if(xhr.status===200){
+                    console.log(xhr.responseText)
+                }else{
+                    console.log('err'+xhr.status)
+                }
+            }
+        }
+        xhr.open('GET','http://127.0.0.5:8000/')
+
+        xhr.setRequestHeader('Content-type','application/json')
+
+        xhr.send(null) //post情况下就有值
+    </script>
+</html>
