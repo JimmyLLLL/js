@@ -1,0 +1,46 @@
+<!--test-->
+<html>
+    <style>
+        .rect{
+            height: 100px;
+            width: 100px;
+            left: 50px;
+            top: 50px;
+            background: grey;
+            position: relative;
+        }
+        .dot{
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: black;
+            right: -5px;
+            bottom: -5px;
+        }
+
+    </style>
+    <body>
+        <div class="rect">
+            <span class="dot"></span>
+        </div>
+        <script>
+            window.onload = function(){
+                const dot = document.getElementsByClassName('dot')[0]
+                const rect = document.getElementsByClassName('rect')[0]
+                const rectPosObj = rect.getBoundingClientRect()
+                dot.onmousedown = function(event){
+                    event.stopPropagation()
+                    document.onmousemove = function(event){
+                        rect.style.width = event.clientX - rectPosObj.left
+                        rect.style.height = event.clientY - rectPosObj.top
+                    }
+                    document.onmouseup = function(){
+                        document.onmousemove = null
+                        document.onmouseup = null
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

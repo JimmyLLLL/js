@@ -1,1 +1,38 @@
-<!--ing-->
+<html>
+    <body>
+       <script>
+           //时间换空间
+            const find = array => {
+                let count = 1
+                let result = array[0]
+                let maxCount = 1
+                let maxResult = array[0]
+
+                function modeHelper(afterCount,afterResult){
+                    if(afterCount > maxCount){
+                        maxResult = afterResult
+                        maxCount = afterCount
+                    }
+                }
+
+                for (let i = 1; i < array.length; i++) {
+                    if (array[i] === result) {
+                        count++
+                    }
+                    else {
+                        count--
+                        if (count === 0) {
+                            result = array[i]
+                            count++
+                        }
+                    }
+                    modeHelper(count,result)
+                }
+
+                return [maxResult,maxCount]
+            }
+
+            console.log(find([5,5,5,5,1,2,3,4,6,6,6,6,6,6,6,6,7,8,9,9,9,9,9,9,10]))
+       </script> 
+    </body>
+</html>

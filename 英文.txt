@@ -5,3 +5,7 @@ sensation n 感觉，感动
 raster n 光栅
 vertex n 顶点 
 mode n众数
+omitted adj 省略的、遗漏的
+optionally adj 随意的、随机的
+align v 校准、调整
+ongoing adj 仍在进行的

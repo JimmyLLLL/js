@@ -35,4 +35,3 @@ js原型链的理解
 let obj = new test()
 ok，我们可以有obj._proto_ === test.prototype
 test.prototype.construtor === test
-指来指去有什么趣...
