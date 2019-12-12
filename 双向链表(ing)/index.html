@@ -1,0 +1,104 @@
+<html>
+    <script>
+        class node{
+            constructor(value){
+                this.pre = null;
+                this.next = null;
+                this.value = value
+            }
+        }
+        class nodeList{
+            constructor(head,tail){
+                this.head = head
+                this.tail = tail
+                this.length = 0
+            }
+            add(value){
+                const newNode = new node(value)
+                if(!this.head){
+                    this.head = newNode
+                    this.tail = newNode
+                }else{
+                    this.tail.next = newNode
+                    newNode.pre = this.tail
+                    this.tail = newNode
+                }
+                this.length++
+                return this
+            }
+            verifyRange(index){
+                if(index<0 || index > this.length-1) throw('范围溢出')
+            }
+            show(){
+                let result = ''
+                const showHelper = (node)=>{
+                    if(node.next) {
+                        result += (node.value + '<---->')
+                        showHelper(node.next)
+                    }else{
+                        result += node.value
+                    }
+                }
+                showHelper(this.head)
+                return result
+            }
+            findAt(index){
+                this.verifyRange(index)
+                let node = this.head
+                let result
+                do{
+                    if(!index) result = node
+                    node = node.next
+                }while(index--)
+                return result
+            }
+            addAt(index,value){
+                this.verifyRange(index)
+                const targetNode = this.findAt(index)
+                const newNode = new node(value)
+
+                if(index===this.length-1){
+                    targetNode.next = newNode
+                    newNode.pre = targetNode
+                    this.tail = newNode
+                }else{
+                    targetNode.next.pre = newNode
+                    newNode.next = targetNode.next
+                    targetNode.next = newNode
+                    newNode.pre = targetNode                    
+                }
+
+                this.length++
+                return this
+            }
+            //删除不做
+            reverse(){
+                let index = -1
+                const reverseHelper = (node)=>{
+                    index++
+                    const nextIndex = node.next
+                    if(!index){
+                        node.pre = node.next
+                        node.next = null
+                        this.tail = node
+                    }else if(index===this.length-1){
+                        node.next = node.pre
+                        node.pre = null
+                        this.head = node
+                        console.log(node)
+                    }else{
+                        [node.next,node.pre] = [node.pre,node.next]
+                    }
+                    if(nextIndex) reverseHelper(nextIndex)
+                }
+                reverseHelper(this.head)
+            }
+        }
+        const link = new nodeList()
+        link.add(1).add(2).add(3).add(4).addAt(3,6)
+        console.log(link.show())
+        link.reverse()
+        link.show()
+        console.log(link)
+    </script>
+</html>

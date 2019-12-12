@@ -1,0 +1,69 @@
+<html>
+    <style>
+        .progressBar{
+            width: 400px;
+            height: 10px;
+            left: 12px;
+            top: 12px;
+            border-radius: 10px;
+            background: grey;
+            position: relative;
+            cursor: pointer;
+        }
+        .dot{
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: black;
+            position: relative;
+            display: block;
+            margin-left: -5px;
+        }
+        .test{
+            position: relative;
+        }
+        .progressText{
+            position: absolute;
+            visibility: hidden;
+            border: 1px solid black;
+            background: white;
+        }
+    </style>
+    <body>
+        <div class="test"><div class="progressBar" onclick="handleClick(event)"><span class="dot"></span></div></div>
+        <div class="progressText"></div>
+        
+        <script>
+            const progressText = document.getElementsByClassName('progressText')[0]  
+
+            //对象取值优化待做
+            const dot = document.getElementsByClassName('dot')[0]
+            const progressBar =  document.getElementsByClassName('progressBar')[0]     
+            const validWidth = progressBar.clientWidth 
+            const progressBarObj = progressBar.getBoundingClientRect()
+               
+            dot.onmousedown = function(){
+                document.onmousemove = function(event){
+                    if(event.clientX - progressBarObj.left > validWidth || event.clientX < progressBarObj.left) return
+                    dot.style.left = event.clientX - progressBarObj.left + 'px'
+                    progressText.innerHTML = ((parseInt(dot.style.left)/validWidth)*100).toFixed(2)+'%'
+                    progressText.style.left = event.clientX + 'px';
+                    progressText.style.top = progressBarObj.top -23 +'px';
+                    progressText.style.visibility ='visible' 
+                }
+                document.onmouseup = function(){
+                    document.onmousemove = null
+                    document.onmouseup = null
+                    progressText.style.visibility ='hidden' 
+                }
+                
+            }        
+            function handleClick(event){
+                if(event.target.nodeName.toLowerCase()!=='div') return
+                dot.style.left = event.layerX + 'px'
+                
+                progressText.innerHTML = ((parseInt(dot.style.left)/validWidth)*100).toFixed(2)+'%'
+            }
+        </script>
+    </body>
+</html>
