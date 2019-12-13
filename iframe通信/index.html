@@ -1,11 +1,17 @@
 <html>
     <body>
-        <iframe src="./iframe1.html"></iframe>
+        <iframe src="file:///C:/Users/Murphy/Desktop/js/iframe%E9%80%9A%E4%BF%A1/iframe1.html" class="frame"></iframe>
+        <button onclick="task()"></button>
     </body>
     <script>
-    function receiveMessage(e) {
-        console.log(e.data)
-    }
-    window.addEventListener("message", receiveMessage, false);
+        const frame = document.getElementsByClassName('frame')[0]
+        function receiveMessage(e) {
+            console.log(e.data)
+        }
+        function task(){
+            //本地协议存在跨域
+            frame.contentWindow.caculate()
+        }
+        window.addEventListener("message", receiveMessage, false);
     </script>
 </html>

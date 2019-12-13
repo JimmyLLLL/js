@@ -5,7 +5,17 @@
             iframe1
         </div>
         <script>
-            top.postMessage('你好', '*');
+            //大规模计算实践证明是会阻塞父页面的进程
+            function caculate(){
+                console.time()
+                let result = 0;
+                for(let i=0;i<99999999;i++){
+                    result+=i
+                }
+                console.timeEnd()
+                top.postMessage(result, '*');                
+            }
+
         </script>
     </body>
 </html>
