@@ -26,6 +26,10 @@ getBoundingClientRect 获取的是相对视窗位置
 
 position默认的static无法设置left
 
+.style与.style.cssText
+批量操作时,cssText只需要一次reflow，提高性能
+
+
 
 
 

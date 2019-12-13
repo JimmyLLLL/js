@@ -1,4 +1,3 @@
-console.log('启动了')
 self.addEventListener('message', function (e) {
     let result = 0
     this.console.time()

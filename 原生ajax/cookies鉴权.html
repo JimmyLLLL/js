@@ -1,0 +1,42 @@
+<html>
+    <body>
+        <div onclick="handleLogin()">login</div>
+        <div onclick="handleValidate()">validate<div>
+    </body>
+    <script>
+        function handleValidate(){
+            let xhr  = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState===4){
+                    if(xhr.status===200){
+                        console.log('鉴权成功')
+                    }else{
+                        console.log('err'+xhr.status)
+                    }
+                }
+            }
+            xhr.open('POST','http://localhost:9007/api/blog/memoryLogin')
+            xhr.setRequestHeader('Content-type','application/json')
+            xhr.send() 
+        }
+        function handleLogin(){
+            const password = 123
+            const account = 123
+            let xhr  = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState===4){
+                    if(xhr.status===200){
+                        console.log('成功')
+                    }else{
+                        console.log('err'+xhr.status)
+                    }
+                }
+            }
+            xhr.open('POST','http://localhost:9007/api/blog/login')
+            xhr.setRequestHeader('Content-type','application/json')
+            const postJSON = JSON.stringify({account,password})
+            xhr.send(postJSON)            
+        }
+
+    </script>
+</html>

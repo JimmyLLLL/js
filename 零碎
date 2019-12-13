@@ -1,1 +1,4 @@
 npm install后出现package-lock
+post请求的body为 x-www-form-urlencoded
+form wei form-data
+form表单支持跨域
