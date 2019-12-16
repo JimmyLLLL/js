@@ -98,3 +98,12 @@ DNSSec诞生：客户端对域名来源进行身份验证，检查DNS域名服�
 
 URL与URI
 https://www.taobao.com/ 这个域名就是 URL，而每个商品的地址就是一个 URI。
+
+顶级域(一级域名)
+.cn
+子域名（二级域名）
+.com.cn
+子域名（三级域名）
+sina.com.cn
+子域名（四级域名）
+www.sina.com.cn / news.sina.com.cn

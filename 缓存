@@ -1,0 +1,92 @@
+web缓存分为很多种，例如
+数据库缓存
+（代理）服务器缓存
+CDN缓存
+浏览器缓存
+
+浏览器缓存：
+1.memory cache
+2.disk cache
+3.service worker
+
+首次访问页面 －－> 资源文件缓存在内存中 －－> 本地磁盘保留副本
+－－> 刷新页面，缓存不过期 --> 内存读取加载 --> 关闭页面 －－>
+内存缓存清空 －－> 再次进入网页  --> 缓存不过期 －－> 本地硬盘加载
+
+按照失效策略进行分类
+强缓存
+协商缓存
+
+强缓存：第一次请求后，有效时间内不会再去请求服务器，直接使用缓存数据
+1.expires
+来源：http1.0
+缺点：
+1.可能因为服务器和客户端GMT时间不同，出现偏差
+2.如果修改了本地时间，客户端日期可能不准确
+3.写法复杂，多个空格、少个字母都可能设置失效
+2.cache－control：{
+    no-cache：（no强缓存cache，使用协商缓存）
+    max-age
+    no-store：所有内容都不会被缓存
+    public：可被代理服务器缓存，如CDN，允许多用户共享
+    private：不能被共有缓存代理服务器缓存，不能在用户间共享，可被用户浏览器缓存
+    must－revalidate：再次验证信息是否过期，返回的代号是304
+}
+来源：http1.1（优先级比expires高）
+
+
+协商缓存：优化的角度上说，我们更关注是服务端的文件有没有变化。
+过程：对某个资源没有命中强缓存时，发送一个请求到服务器，如果协商缓存命中，
+返回304状态码
+
+1.（上次修改时间）
+服务端响应头：Last-Modified
+客户端请求头：If-Modified-Since
+缺点：
+1.时间不准确问题
+2.Last－Modified只能精准到秒，一秒内多次改变无法运作
+3.周期性更改，但是内容不变，只是变了修改时间，浪费带宽
+
+2.
+服务端响应头：ETag
+客户端请求头：If－None－Match
+浏览器再次请求 --> 带上If-None-Match --> 服务端根据If-None-Match与资源生成一个新Etag
+--> 两值相同则无变化，返回304，同时发回新的ETag（虽然一样），若两值不同，返回正常资源内容，更新ETag
+若浏览器收到304相应，则从缓存加载资源
+缺点：相同的资源，两台服务器产生的Etag不同，所以对于集群来讲，Etag的匹配概率会很低
+
+总结优先级：
+Cache－Control > Expires > Etag > Last－Modified
+
+使用场景
+强制缓存：优先级最高，缓存期内不会发送请求，适合大型、不易修改的资源文件，例如第三方css
+js或图片资源。如果更灵活的话，我们也可以为文件名加上hash进行版本区分
+
+协商缓存灵活性高，适用于数据的缓存，采用Etag标识对比灵活度更高，更可靠
+
+禁止浏览器不缓存静态资源
+Cache－Control： no-cache,no-store,must－revalidate
+或者给资源增加一个版本号：
+<link rel="stylesheet" type="text/css" href="./asset.css?version=1.8.9"/>
+或者使用meta
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+
+情景：cache－control:max-age=0
+跳协商缓存，可能200或者304
+
+情景：cache－control:no-cache
+走协商缓存
+
+情景：还有什么可以走协商？
+cache－control：must-revalidate
+
+
+情景：设置这个有什么效果
+Cache-Control: max-age=60, must-revalidate
+60秒内访问，强缓存，超过60秒，走协商验证资源有效性
+
+情景：Etag
+大厂使用负载均衡的方式调度HTTP请求，因此同一个客户端对同个页面多次请求，可能
+被分配到不同服务器响应。根据Etag计算原理，不用服务器很可能在资源内容没变情况下
+计算出不一样Etag使得缓存失效
+且Etag计算复杂，可能使得服务端响应变慢
