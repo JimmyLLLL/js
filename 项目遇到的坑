@@ -1,0 +1,2 @@
+截图－－>  全局转canvas（html2canvas） －－> 插件canvs使svg转canvas
+问题：svg外链的css是无法被转进canvas的 解决思路，改svg内嵌。 方法待补充
