@@ -36,3 +36,15 @@ css的话框架在那里，不会垮塌
 选择的时候要考虑seo和标签语义化
 
 getComputedStyle是css取得全部权衡后的结果
+
+Document.styleSheets 只读属性，返回一个由 StyleSheet 对象组成的 StyleSheetList，每个 StyleSheet 对象都是一个文档中链接或嵌入的样式表。
+
+循环出整个页面的css
+    Array.prototype.forEach.call(sheets, function(sheet){ //多个样式表
+        try{
+            styleStr += Array.prototype.reduce.call(sheet.cssRules, function(a, b){  //样式表里多个元素
+                return a + b.cssText;
+                }, "");
+            }
+        catch(e){console.log(e);}
+    });

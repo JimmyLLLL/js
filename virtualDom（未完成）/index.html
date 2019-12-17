@@ -3,27 +3,223 @@
 操作DOM的数量减少，但能精准地获取最小的、最有必要的DOM集合
 -->
 <!--另一方面，如果不用虚拟dom，每次改变数据都要去获取dom信息，代价也是很大的，数据结构可以小容量缓存-->
+<!--
+    个人理解：虚拟dom确实不能减少操作的数量
+    但是每次diff的时候，如果你边比较边更新dom，相比起收集差异，集中更新，无疑后者更好
+    而且读取dom的属性时，庞大的dom信息带来的读取缓慢应该也是一个因素
+-->
+<!--里面得动态追加还没完成,删除还有问题-->
 <!DOCTYPE html>
 <html>
     <body>
-        <div style="background: blue;" class="test">萨达</div>
-
     </body>
     <script>
-        console.log()
-        document.getElementsByClassName('test').style = "height:300px"
-        class Element{
-            constructor(tagName,attributes={},children=[]){
-                this.tagName = tagName
-                this.attributes = attributes
-                this.children = children
-            }
-        }
         function element(tagName,attributes,children){
             return new Element(tagName,attributes,children)
         }
         function setAttribute(node,key,value){
+            //不同种类的设置属性
+            switch(key){
+                case 'style':
+                    node.style.cssText = value
+                    break;
+                case 'value':
+                let tagName = node.tagName || ''
+                tagName = tagName.toLowerCase()
+                if(tagName==='input'||tagName=='textarea'){
+                    node.value = value
+                    break
+                }
+                default:
+                    node.setAttribute(key,value)
+                    break
+            }
 
         }
+        //获取树只能一个顶
+        class Element{
+            constructor(tagName,attributes={},children=[]){
+                if(!tagName) throw 'virtual dom object must has tagName'
+                this.tagName = tagName
+                this.attributes = attributes
+                this.children = children
+            }
+            //DFS
+            render(){
+                const renderHelper = (node)=>{
+                    const element = document.createElement(node.tagName)
+                    const attributes = node.attributes
+                    for(let key in attributes){
+                        setAttribute(element,key,attributes[key])
+                    }
+                    if(node.children.length){
+                        node.children.forEach(subNode => {
+                            typeof subNode !== 'string'? element.appendChild(renderHelper(subNode)):element.appendChild(document.createTextNode(subNode))
+                        });
+                    }
+                    return element
+                }
+                document.getElementsByTagName('body')[0].appendChild(renderHelper(this))
+            }
+        }
+
+        function normalRender(node){
+                const renderHelper = (node)=>{
+                    const element = document.createElement(node.tagName)
+                    const attributes = node.attributes
+                    for(let key in attributes){
+                        setAttribute(element,key,attributes[key])
+                    }
+                    if(node.children.length){
+                        node.children.forEach(subNode => {
+                            typeof subNode !== 'string'? element.appendChild(renderHelper(subNode)):element.appendChild(document.createTextNode(subNode))
+                        });
+                    }
+                    return element
+                }
+                return renderHelper(node)
+            }
+
+        const originalObj = {
+            tagName:'div',
+            attributes:{class:'top'},
+            children:[{
+                tagName:'p',
+                attributes:{class:'ptest'},
+                children:['ptest测试文字']
+            },{
+                tagName:'div',
+                attributes:{class:'inside'},
+                children:['里面div测试',{
+                    tagName:'p',
+                    attributes:{class:'test'},
+                    children:['div里面的文字']
+                }]
+            }]
+        }
+
+        const originalObj1 = {
+            tagName:'div',
+            attributes:{class:'top'},
+            children:[{
+                tagName:'p',
+                attributes:{class:'ptest'},
+                children:['ptest测试']
+            },{
+                tagName:'div',
+                attributes:{class:'inse'},
+                children:['里面div测试',{
+                    tagName:'p',
+                    attributes:{class:'test'},
+                    children:['更改']
+                }]
+            }]
+        }
+
+
+        element(originalObj.tagName,originalObj.attributes,originalObj.children).render()
+        
+        let patchIndex = 0
+        const patches = {}
+        function diff(oldDom,newDom){
+            patches[patchIndex] = []
+            if(!newDom){
+                patches[patchIndex].push({
+                    type:'REMOVE'
+                })
+            }else if(!oldDom){
+                patches[patchIndex].push({
+                    type:'ADD',
+                    patchIndex,
+                    newDom
+                })
+
+            }else if(typeof oldDom==='string' && typeof newDom==='string'){
+            if(oldDom !== newDom){
+                patches[patchIndex].push({
+                    type:'MODIFY_TEXT',
+                    newDom
+                })
+            }
+            }else if(oldDom.tagName === newDom.tagName){
+                const diffAttribute = {}
+                for(let key in oldDom.attributes){
+                    if(oldDom.attributes[key] !== newDom.attributes[key]){
+                        diffAttribute[key] = newDom.attributes[key]
+                    }
+                }
+                for(let key in newDom.attributes){
+                    if(!oldDom.attributes.hasOwnProperty(key)){
+                        diffAttribute[key] = newDom.attributes[key]
+                    }
+                }
+                if(Object.keys(diffAttribute).length){
+                    patches[patchIndex].push({
+                        type:'MODIFY_ATTRIBUTE',
+                        diffAttribute
+                    })
+                }
+                oldDom.children.forEach((item,index)=>{
+                    patchIndex++
+                    diff(item,newDom.children[index])
+                })
+                let addNewSubDomNum = newDom.children.length - oldDom.children.length
+                while(addNewSubDomNum>0){
+                    console.log(addNewSubDomNum)
+                    patchIndex++
+                    diff(null,newDom.children[newDom.children.length-addNewSubDomNum])
+                    addNewSubDomNum--
+                }
+            }else{
+                patches[patchIndex].push({
+                    type:'REPLACE',
+                    newDom
+                })
+            }
+        }
+
+        diff(originalObj,originalObj1)
+
+        console.log(patchIndex)
+        let walkIndex = 0
+        function walk(node){
+            patches[walkIndex].forEach((item)=>{
+                switch(item.type){
+                    case 'REMOVE':
+                        node.parentNode.removeChild(node)
+                        break;
+                    case 'ADD':
+                        console.log(node)
+                        node.parentNode.appendChild(normalRender(node))
+                        break;
+                    case 'MODIFY_TEXT':
+                        node.textContent = item.newDom
+                        break;
+                    case 'MODIFY_ATTRIBUTE':
+                        for(let key in item.diffAttribute){
+                            if(item.diffAttribute[key]){
+                                setAttribute(node,key,item.diffAttribute[key])
+                            }else{
+                                node.removeAttribute(key)
+                            }
+                        }
+                        break;
+                    case 'REPLACE':
+                        const newNode = item.newDom !== 'string'? normalRender(newDom) : document.createTextNode(newDom)
+                        node.parentNode.replaceChild(newNode, node)           
+                }
+            })
+            node.childNodes.forEach((item)=>{
+                walkIndex++
+                walk(item)
+            })
+
+        }
+
+        walk(document.getElementsByClassName('top')[0])
+
+        console.log(patches)
+
+
     </script>
 </html>

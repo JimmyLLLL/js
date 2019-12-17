@@ -1,0 +1,7 @@
+
+html转canvas：html2canvas  
+svg转canvas：canvs
+
+svg不能外链样式生成canvas --> document.styleSheets 获取全局样式
+--> 正则挑出highchart样式 --> svg转canvas不支持var变量 --> 
+替换var变量 --> 内联
