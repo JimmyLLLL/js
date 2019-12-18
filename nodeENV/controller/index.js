@@ -6,6 +6,11 @@ const PASSWORD = 123
 const ACCOUNT = 123
 
 module.exports = {
+  async getTest(ctx){
+    ctx.body = {
+      message:ctx.params
+    }
+  },
   //一进入网页自动登录
   async memoryLogin(ctx) {
     const token = ctx.cookies.get('token');

@@ -1,0 +1,68 @@
+<html>
+    <script>
+        class Interceptor{
+            constructor(option={}){
+                this.option = option
+                this.queue = []
+                this.addAfterBuffer = []
+            }
+            addMain(cb){
+                this.main = cb
+                return this
+            }
+            addBefore(cb){
+                this.queue.unshift(cb)
+                return this
+            }
+            addAfter(cb){
+                this.addAfterBuffer.push(cb)
+                return this
+            }
+            async run(){
+                this.queue.push(this.main,...this.addAfterBuffer)
+                this.addAfterBuffer = null
+                let param = await this.queue.shift()(this.option)
+                while(this.queue.length){
+                    param = await this.queue.shift()(param)
+                }
+                return param
+            }
+        }
+        Interceptor.read = async ()=>{
+             const result = await test.run()
+             console.log(result)
+        }
+
+        const test = new Interceptor({a:'hello'})
+        test.addBefore((obj)=>{
+            return new Promise((resolve)=>{
+                setTimeout(()=>{
+                    obj['b'] = 'world'
+                    resolve(obj)
+                },1000)
+            })
+        })
+        test.addAfter((obj)=>{
+            return new Promise((resolve)=>{
+                setTimeout(()=>{
+                    obj['c'] = 'world'
+                    resolve(obj)
+                },1000)
+            })
+        })
+        test.addMain((obj)=>{
+            return new Promise((resolve)=>{
+                setTimeout(()=>{
+                    obj['main'] = 'main'
+                    resolve(obj)
+                },1000)
+            })
+        })
+        const read = async ()=>{
+             const result = await test.run()
+             console.log(result)
+        }
+        read()
+       
+    </script>
+</html>

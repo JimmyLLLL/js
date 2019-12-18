@@ -10,10 +10,14 @@
                 }
             }
         }
-        xhr.open('GET','http://127.0.0.5:8000/')
-
+        const account = 123
+        const password = 123
+        xhr.open('POST','http://localhost:9008/api/blog/login')
         xhr.setRequestHeader('Content-type','application/json')
+        const postJSON = JSON.stringify({account,password})
+        xhr.send(postJSON)  
+        
+        xhr.abort() //放弃请求，就是超时的实现
 
-        xhr.send(null) //post情况下就有值
     </script>
 </html>

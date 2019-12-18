@@ -1,0 +1,100 @@
+<html>
+    <script>
+        function Promise(executor){
+            this.status = 'pending'
+            this.value = null
+            this.reason = null
+            /*
+                暂存函数是因为
+                let promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('data')  这边异步了
+                }, 2000)
+                })
+                promise.then(data => {
+                    console.log(data)     为了data不为undefined，把这个函数存起来，resolve再调用
+                })
+            */
+            this.onFulfilledArray = []
+            this.onRejectedArray = []
+            /*
+            数组因为
+            resolve(1)  //一个resolve，所以value不用写成数组
+            promise.then(data => {
+                console.log(`1: ${data}`)
+            })
+            promise.then(data => {
+                console.log(`2: ${data}`)
+            })
+            期望1:1 2:1
+            */
+
+            const resolve = (value)=>{
+                /*
+                加异步是因为promise是异步的，先1
+                promise.then(data => {
+                    console.log(data)
+                })
+                console.log(1)
+                */
+                if (value instanceof Promise) {
+                    return value.then(resolve, reject) //即便是promise，要的就是值，resolve上来吞值
+                }
+                setTimeout(()=>{
+                    if(this.status === 'pending'){  //如果let promise = new Promise((resolve,reject)=>{resolve(8);reject(88)})
+                        this.value = value          //不应该两个都执行，加入状态判断
+                        this.status = 'fulfilled'
+
+                        this.onFulfilledArray.forEach(func => {
+                            func(value)
+                        })
+                    }                    
+                })
+            }
+            const reject = (reason)=>{
+                setTimeout(()=>{
+                    if(this.status === 'pending'){
+                        this.reason = reason
+                        this.status = 'rejected'
+
+                        this.onRejectedArray.forEach(func => {
+                            func(reason)
+                        })
+                    }                    
+                })
+
+                
+            }
+            try{
+                executor(resolve,reject)  //let promise = new Promise((resolve,reject)=>{resolve(8)})
+            }catch(e){
+                reject(e)
+            }
+            
+        }
+
+        Promise.prototype.then = function(onfulfilled = Function.prototype, onrejected = Function.prototype){
+            onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : data => data //传promise.then(8) 转为 promsie.then((param)=>param) 8废弃了
+            onrejected = typeof onrejected === 'function' ? onrejected : error => error
+            //这种一般先resolve，所以到这里状态已经为处理过了，而resolve的值被value缓存
+            //但是因为resolve与reject的setTimeout加入，我觉得这里其实没必要了，直接留pending
+            if(this.status ==='fulfilled'){
+                onfulfilled(this.value) //primsie.then((res)=>{console.log(res) //8})
+            }
+            if(this.status === 'rejected'){
+                onrejected(this.reason)
+            }
+            if(this.status === 'pending'){          
+            /*
+                这种模式先执行then，所以状态还是pending
+                setTimeout(() => {
+                    resolve('data')  这边异步了
+                }, 2000)
+            
+            */
+                this.onFulfilledArray.push(onfulfilled)
+                this.onRejectedArray.push(onrejected)
+            }
+        }
+    </script>
+</html>

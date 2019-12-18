@@ -1,0 +1,6 @@
+fetch与xhr
+xhr的api不友好，但是功能全面
+fetch差异：
+必须在header加上credentials: 'include'，才能和xhr一样带cookies
+fetch缺少取消abort的方法
+服务器返回4XX、5XX不报错，需要手动抛出
