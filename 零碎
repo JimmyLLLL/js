@@ -1,4 +1,13 @@
 npm install后出现package-lock
 post请求的body为 x-www-form-urlencoded
-form wei form-data
+form 为 form-data
 form表单支持跨域
+
+
+跨标签通信
+1.url
+2.localstorage（同源）
+3.socket
+4.sharedworker（兼容性差）
+5.postmessage
+https://www.cnblogs.com/lalalagq/p/9921144.html

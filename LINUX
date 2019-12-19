@@ -1,0 +1,5 @@
+linux自定义快捷键
+/etc/bash.bashrc
+语法
+alias xxx="yyy"
+source /etc/bash.bashrc 生效
