@@ -49,7 +49,7 @@
                     root.left && insertNode(root.right,root.left)
                     father && (father[diretion] = root.right)
                 }else{
-                    father && (father[diretion] = null)
+                    root.left ? father && (father[diretion] = root.left) : father && (father[diretion] = null)
                 }
                 root = null
             }

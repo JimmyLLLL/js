@@ -1,0 +1,45 @@
+
+<html>
+    <body>
+        <script>
+            //递归法
+            function flatten(arr){
+                const result = [];
+                for(let i = 0,len = arr.length;i<len;i++){
+                    if(Array.isArray(arr[i])){
+                        result = result.concat(flatten(arr[i]))
+                    }else {
+                        result.push(arr[i])
+                    }
+                }
+                return result
+            }
+            
+
+            //函数式
+            function flatten(arr){
+                return arr.reduce(function(prev,next){
+                    return prev.concat(Array.isArray(next)?flatten(next):next)
+                },[])
+            }
+
+            //函数式
+            function flatten(arr){
+                while(arr.some(item=>Array.isArray(item))){
+                    arr = [].concat(...arr);  //利用 [].concat(2) = [2]   [].concat([1,2]) = [1,2]
+                }
+                return arr;
+            } 
+            
+            //ES6官方API
+            //[1, 2, [3, [4, 5]]].flat(2) 2是层数，全部则参数为Infinity
+
+            //ES6官方API
+            // 相当于 [[2, 4], [3, 6], [4, 8]].flat()
+            //[2, 3, 4].flatMap((x) => [x, x * 2])  //flatMap与map一样，对每一项遍历并返回，但是它最后做了只有一步扁平的操作
+            // [2, 4, 3, 6, 4, 8]
+
+        </script>        
+    </body>
+
+</html>

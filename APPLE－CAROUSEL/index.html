@@ -95,27 +95,33 @@
 <script>
     let timmer = null
     window.onload = function(){
-        const insideWrapper = document.getElementsByClassName('insideWrapper')[0]
-        const progressBar = document.getElementsByClassName('progressBar')
-        const slideBarDom = document.getElementsByClassName('slideBar')[0]        
+        const insideWrapper = document.getElementsByClassName('insideWrapper')[0] //图片的总外包装，很长
+        const progressBar = document.getElementsByClassName('progressBar')  //真正进度条
+        const slideBarDom = document.getElementsByClassName('slideBar')[0]     //代理点击用
+
+        //初始化
         const firstProgressBar = progressBar[0]
-        firstProgressBar.classList.add("progressBarActive");
+        firstProgressBar.classList.add("progressBarActive"); //长度上来，带渐变
         let index = 0
 
+
+        addTimmer()
         function addTimmer(){
             timmer = setInterval(() => {
-                index === 4 ? progressBar[0].classList.remove("progressBarActive"):progressBar[index].classList.remove("progressBarActive")
                 if(index===4){
+                    progressBar[0].classList.remove("progressBarActive")
                     insideWrapper.classList.remove('clearTransition')
                     insideWrapper.style.left = '-432px'
                     index = 1
                 }else{
-                    insideWrapper.style.left = -432*(index+1) + 'px'
-                    if(index+1===4){
+                    const nextIndex = index+1
+                    progressBar[index].classList.remove("progressBarActive")
+                    insideWrapper.style.left = -432*nextIndex + 'px'
+                    if(nextIndex===4){
                         setTimeout(() => {
                             insideWrapper.classList.add('clearTransition')
                             insideWrapper.style.left = '0px'                            
-                        }, 1000);
+                        }, 300);
                     }
                     index++
                 }
@@ -123,12 +129,16 @@
             }, 3000);
         }
 
-        addTimmer()
 
 
         slideBarDom.addEventListener("click", function(e) {
             if(e.target.className === 'outSideBar'){
-                index===4?progressBar[0].classList.remove('progressBarActive'):progressBar[index].classList.remove('progressBarActive')
+                if(index===4){
+                    insideWrapper.classList.remove('clearTransition')
+                    progressBar[0].classList.remove('progressBarActive')
+                }else{
+                    progressBar[index].classList.remove('progressBarActive')
+                }
                 clearTimeout(timmer)
                 index = +e.target.getAttribute('index')
                 progressBar[index].classList.add("progressBarActive")

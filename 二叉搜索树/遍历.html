@@ -23,12 +23,13 @@
             }
         }
         function insertNode(root,newNode){
+            //留出空位方便加些功能，也让调用的功能函数不要递归化
             insertNodeHelper(root,newNode)
         }
-        let a4 = new Node(4)
-        let a5 = new Node(5)
-        let a3 = new Node(3)
-        let a6 = new Node(6)
+        const a4 = new Node(4)
+        const a5 = new Node(5)
+        const a3 = new Node(3)
+        const a6 = new Node(6)
         insertNode(a5,a3)
         insertNode(a5,a4)
         insertNode(a5,a6)

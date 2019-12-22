@@ -1,6 +1,4 @@
-//欢迎使用万恶的es5进行继承
 
-//我觉得记忆名字实在是无语，什么寄生组合...总之无所谓了，最重要你要清楚为什么那么做
 
 function ParentClass(name){
     this.name = name
@@ -17,7 +15,7 @@ function SubClass(name,age){
 }
 
 SubClass.prototype = Object.create(ParentClass.prototype)
-//怎么样，疑惑吧，Object.create有什么用呢?
+
 /*
 Object.create = function(o){
     let F = function(){};
@@ -25,8 +23,9 @@ Object.create = function(o){
     return new F()
 }
 */
-//粗略可以了解为深复制了一番
+
 SubClass.prototype.constructor = SubClass //不改的constructor还是ParentClass
+
 SubClass.prototype.sayChildHello = function(name){
     console.log('I am your child fn'+this.name)
 }

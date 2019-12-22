@@ -74,11 +74,77 @@
         }
 
         const resolvePromise = (promise2, result, resolve, reject) => {
-//暂停
+            if (result === promise2) {
+                /*
+                    避免有人写成
+                    promise.then(onfulfilled = data => {
+                    console.log(data)
+                    return onfulfilled(data)
+                    })
+                */
+                reject(new TypeError('error due to circular reference')) 
+            }
+            
+            let consumed = false
+            let thenable
+            if(result instanceof Promise){
+                if(result.status === 'pending'){
+                    result.then(function(data){
+                        resolvePromise(promise2, data, resolve, reject) //假如resolve的promise里还有promise
+                    },reject)
+                }else{
+                    result.then(resolve, reject)  //有值了
+                }
+                return
+            }
+            let isComplexResult = target => (typeof target === 'function' || typeof target === 'object') && (target !== null)
+            //与上面逻辑像，都是判断是不是promise，但是这边以有没有then属性来判断，估计是为了健壮性
+            if(isComplexResult(result)){
+                try{
+                    thenable = result.then
+                    if(typeof thenable === 'function'){
+                        thenable.call(result,function(data){
+                            if(consumed){
+                                return
+                            }
+                            consumed = true
+                            return resolvePromise(promise2, data, resolve, reject)
+                        },function(error){
+                            return reject(error)
+                        })
+                        
+                    }else{
+                        resolve(result)
+                    }                    
+                }catch(e){
+                    if(consumed){
+                        return
+                    }
+                    consumed = true
+                    return reject(e)
+                }
+
+            }
+            else{
+                resolve(result)
+            }
+
         }
 
 
         Promise.prototype.then = function(onfulfilled = Function.prototype, onrejected = Function.prototype){
+            /*
+                判断是不是函数刚好实现了穿透功能
+                const promise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('lucas')
+                    }, 2000)
+                })
+                promise.then(null)
+                .then(data => {
+                    console.log(data)
+                })
+            */
             onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : data => data //传promise.then(8) 转为 promsie.then((param)=>param) 8废弃了
             onrejected = typeof onrejected === 'function' ? onrejected : error => error
             //这种一般先resolve，所以到这里状态已经为处理过了，而resolve的值被value缓存

@@ -1,0 +1,272 @@
+<html>
+    <script>
+        function Promise(executor){
+            this.status = 'pending'
+            this.value = null
+            this.reason = null
+            /*
+                暂存函数是因为
+                let promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('data')  这边异步了
+                }, 2000)
+                })
+                promise.then(data => {
+                    console.log(data)     为了data不为undefined，把这个函数存起来，resolve再调用
+                })
+            */
+            this.onFulfilledArray = []
+            this.onRejectedArray = []
+            /*
+            数组因为
+            resolve(1)  //一个resolve，所以value不用写成数组
+            promise.then(data => {
+                console.log(`1: ${data}`)
+            })
+            promise.then(data => {
+                console.log(`2: ${data}`)
+            })
+            期望1:1 2:1
+            */
+
+            const resolve = (value)=>{
+                /*
+                加异步是因为promise是异步的，先1
+                promise.then(data => {
+                    console.log(data)
+                })
+                console.log(1)
+                */
+                if (value instanceof Promise) {
+                    return value.then(resolve, reject) //即便是promise，要的就是值，resolve上来吞值
+                }
+                setTimeout(()=>{
+                    if(this.status === 'pending'){  //如果let promise = new Promise((resolve,reject)=>{resolve(8);reject(88)})
+                        this.value = value          //不应该两个都执行，加入状态判断
+                        this.status = 'fulfilled'
+
+                        this.onFulfilledArray.forEach(func => {
+                            func(value)
+                        })
+                    }                    
+                })
+            }
+            const reject = (reason)=>{
+                setTimeout(()=>{
+                    if(this.status === 'pending'){
+                        this.reason = reason
+                        this.status = 'rejected'
+
+                        this.onRejectedArray.forEach(func => {
+                            func(reason)
+                        })
+                    }                    
+                })
+
+                
+            }
+            try{
+                executor(resolve,reject)  //let promise = new Promise((resolve,reject)=>{resolve(8)})
+            }catch(e){
+                reject(e)
+            }
+            
+        }
+
+        const resolvePromise = (promise2, result, resolve, reject) => {
+            if (result === promise2) {
+                /*
+                    避免有人写成
+                    promise.then(onfulfilled = data => {
+                    console.log(data)
+                    return onfulfilled(data)
+                    })
+                */
+                reject(new TypeError('error due to circular reference')) 
+            }
+            
+            let consumed = false
+            let thenable
+            if(result instanceof Promise){
+                if(result.status === 'pending'){
+                    result.then(function(data){
+                        resolvePromise(promise2, data, resolve, reject) //假如resolve的promise里还有promise
+                    },reject)
+                }else{
+                    result.then(resolve, reject)  //有值了
+                }
+                return
+            }
+            let isComplexResult = target => (typeof target === 'function' || typeof target === 'object') && (target !== null)
+            //与上面逻辑像，都是判断是不是promise，但是这边以有没有then属性来判断，估计是为了健壮性
+            if(isComplexResult(result)){
+                try{
+                    thenable = result.then
+                    if(typeof thenable === 'function'){
+                        thenable.call(result,function(data){
+                            if(consumed){
+                                return
+                            }
+                            consumed = true
+                            return resolvePromise(promise2, data, resolve, reject)
+                        },function(error){
+                            return reject(error)
+                        })
+                        
+                    }else{
+                        resolve(result)
+                    }                    
+                }catch(e){
+                    if(consumed){
+                        return
+                    }
+                    consumed = true
+                    return reject(e)
+                }
+
+            }
+            else{
+                resolve(result)
+            }
+
+        }
+
+
+        Promise.prototype.then = function(onfulfilled = Function.prototype, onrejected = Function.prototype){
+            /*
+                判断是不是函数刚好实现了穿透功能
+                const promise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('lucas')
+                    }, 2000)
+                })
+                promise.then(null)
+                .then(data => {
+                    console.log(data)
+                })
+            */
+            onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : data => data //传promise.then(8) 转为 promsie.then((param)=>param) 8废弃了
+            onrejected = typeof onrejected === 'function' ? onrejected : error => error
+            //这种一般先resolve，所以到这里状态已经为处理过了，而resolve的值被value缓存
+            //但是因为resolve与reject的setTimeout加入，我觉得这里其实没必要了，直接留pending
+            if(this.status ==='fulfilled'){
+                    /*
+                    promise.then(data => {
+                        console.log(data)
+                        return `${data} next then`
+                    })
+                    .then(data => {
+                        console.log(data)
+                    })
+                    为了实现链式调用，返回promise2
+                    */
+                return promise2 = new Promise((resolve,reject)=>{
+                        setTimeout(()=>{
+                            try{
+                                const result = onfulfilled(this.value) //primsie.then((res)=>{console.log(res) //8})
+                                resolvePromise(promise2, result, resolve, reject)
+                            }catch(e){
+                                reject(e)
+                            }
+                        })
+                })
+                
+            }
+            if (this.status === 'rejected') {
+                return promise2 = new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            try {
+                                const result = onrejected(this.value)
+                                resolvePromise(promise2, result, resolve, reject)
+                            }
+                            catch(e) {
+                                reject(e)
+                            }
+                        })
+                })
+            }
+            if (this.status === 'pending') {
+                return promise2 = new Promise((resolve, reject) => {
+                    this.onFulfilledArray.push(() => {
+                        try {
+                            let result = onfulfilled(this.value)
+                            resolvePromise(promise2, result, resolve, reject)
+                        }
+                        catch(e) {
+                            reject(e)
+                        }
+                    })
+
+                    this.onRejectedArray.push(() => {
+                        try {
+                            let result = onrejected(this.reason)
+                            resolve(result)
+                        }
+                        catch(e) {
+                            reject(e)
+                        }
+                    })      
+                })
+            }
+        }
+        /*
+        Promise.prototype.catch = function(catchFunc) {
+            return this.then(null, catchFunc)
+        }
+        */
+        /*
+        实现promise.prototype.reject
+        Promise.reject = function(value) {
+            return new Promise((resolve, reject) => {
+                reject(value)
+        })
+        */
+        /*
+        实现promise.prototype.resolve
+        Promise.resolve = function(value) {
+            return new Promise((resolve, reject) => {
+                resolve(value)
+        })
+}
+        */
+
+        //实现Promise.all
+        Promise.all = function(promiseArray){
+            if(!Array.isArray(promiseArray)){
+                throw new TypeError('The arguments should be an array!')
+            }
+            return new Promise((resolve,reject)=>{
+                try{
+                    let resultArray = []
+                    const length = promiseArray.length
+                    for(let i=0;i<length;i++){
+                        promiseArray[i].then((data)=>{
+                            resultArray.push(data)
+                        },reject)
+                        if(resultArray.length===length){
+                            resolve(resultArray)
+                        }
+                    }
+                }catch(e){
+                    reject(e)
+                }
+            })
+        }
+        //promise.race
+        Promise.race = function(promiseArray) {
+            if (!Array.isArray(promiseArray)) {
+                throw new TypeError('The arguments should be an array!')
+            }
+            return new Promise((resolve, reject) => {
+                try {
+                    const length = promiseArray.length
+                    for (let i = 0; i <length; i++) {
+                        promiseArray[i].then(resolve, reject) //回去上面看resolve，第一次突破pending的值才有机会赋值到this.value
+                    }
+                }catch(e) {
+                    reject(e)
+                }
+            })
+        }
+    </script>
+</html>

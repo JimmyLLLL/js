@@ -1,9 +1,33 @@
-//真实的bind更复杂，参数要处理下，不过这里着重展示一下为什么bind跟apply、call不一样
-Function.prototype.emulateBind = function (context){
-    let that = this 
-    return function(){
-        //let that = this是因为你不知道这个return的函数在哪里会被调用
-        //这样的话必须存储好this，this指向想要调用bind的原函数
-        return that.apply(context)
+Function.prototype.bind = Function.prototype.bind || function (context){
+    const that = this
+    const args = Array.prototype.slice.call(arguments,1)
+    const F = function () {}
+    F.prototype = this.prototype
+    const bound = function () {
+        const innerArgs = Array.prototype.slice.call(arguments);
+        const finalArgs = args.concat(innerArgs);
+        return that.apply(this instanceof F ? this : context || this, finalArgs) //作为构造函数则放弃context绑定
     }
+    bound.prototype = new F()
+    return bound
 }
+
+/*
+    普通执行 const a = b.bind(context)
+            a()
+            this指向window
+            而 new a()
+            /*
+                function myNew(){
+                    let obj = new object()
+                    let Constructor = Array.prototype.shift.call(arguments)
+
+                    obj._proto_ = Constructor.prototype //获得了prototype
+
+                    let ret = Constructor.apply(obj,arguments)
+
+                    return typeof ret === 'object' ? ret : obj;
+                    //假如你b有对象返回，那么优先返回对象的值，没有的话再返回obj
+                }           
+            */
+*/

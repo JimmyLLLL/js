@@ -1,0 +1,18 @@
+xss:简单理解为就是输入框里注入了脚本
+通过转义来解决，关于xss威胁cookie：可以设置cookie http-only使得客户端无法串改cookie
+
+csrf:浏览着网页，突然陌生人发了一个这个网页的比如交易操作的链接给你
+
+解决方案有重要操作加入验证码、重新输入密码，验证HTTP Referer字段来判断请求来源，运用token
+
+选项；为了防御 XSRF，需要开发者设置 SameSite（同源） 选项。需要注意，并不是所有浏览器都支持 SameSite。
+
+个人思路防CSRF：
+前提：防好XSS
+前端后端同套JWT，secret算法
+前端用户密码用secret算法加密payload获得secret，session存secret，传secret，payload
+后端根据payload生成secret，payload+secret生成token，给前端cookies http-only存
+每次请求带secret和cookies
+后端直接验证jwt
+这样csrf即使进入了网，也读不到secret（跨标签无法读取session）
+

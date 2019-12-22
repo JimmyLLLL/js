@@ -1,0 +1,40 @@
+
+
+<html>
+    <script>
+        function finonacciMemoryOptimize(){
+            const map = {}
+            const finonacci = function (n){
+                if(n<1) throw new Error('参数有误')
+                if(n===1 || n===2) return 1
+                if(map[n]){
+                    return map[n]
+                }else{
+                    const result = finonacci(n-1) + finonacci(n-2)
+                    map[n] = result
+                    return result
+                }
+            }
+            return finonacci
+        }
+
+        const finonacciOriginal = function (n){
+                if(n<1) throw new Error('参数有误')
+                if(n===1 || n===2) return 1
+                return finonacciOriginal(n-1) + finonacciOriginal(n-2)
+        }
+
+        const finonacci = finonacciMemoryOptimize()
+        console.time()
+        finonacci(40)
+        console.timeEnd()
+
+        //有无内存优化差距甚至高达一万倍
+
+        console.time()
+        finonacciOriginal(40)
+        console.timeEnd()
+
+        //运行中造成了极大的浪费，因为有可能重复计算
+    </script>
+</html>

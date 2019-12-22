@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <script>
+        Function.prototype.apply = function(context,argArr){
+            if(typeof argArr === 'undefined' || argArr === null){
+                argArr = []
+            }
+            if(typeof argArr === 'undefined' || argArr === null){
+                context = window
+            }
+
+            context = new Object(context)
+
+            const targetFnKey = 'targetFnKey'
+            context[targetFnKey] = this
+
+            const result = context[targetFnKey](...argArr)
+            delete context[targetFnKey]
+            
+            return result
+        }
+    </script>
+
+</html>

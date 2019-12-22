@@ -14,7 +14,7 @@ function getSolvetion(array,target){
 
     const dfs = (startIndex) =>{
         const total = addArray.reduce((cur,bef)=>{
-            return cur+bef
+            return cur+bef      //计算addArray总和模块
         },0)
         if(total===target){
             result.push([...addArray])
@@ -24,14 +24,18 @@ function getSolvetion(array,target){
             return
         }
 
-        for(let i=startIndex;i<array.length;i++){
+        for(let i=startIndex;i<array.length;i++){ 
             addArray.push(array[i])
-            dfs(i)
+            /*
+            想象把dfs(0)是单个，其不断进入dfs(0)的调用，直到2+2+2+2满足条件或者大于7，pop，尝试2+2+2+3，这样不断尝试，
+            为什么叫DFS，因为不断冲击2+2+2＋2，直到不满足了，才开始尝试2+2+2+3、2+2+2+6，不断回来
+            */
+            dfs(i) //所谓剪枝，为了不要3重复加2计算，这边传进i，刚好为里面的函数的startIndex
             addArray.pop(array[i])
         }
     }
 
-    dfs(0)
+    dfs(0) //从第一个下标开始初始化
     return result
 }
 

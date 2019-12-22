@@ -20,7 +20,7 @@
 
             while(queue.length){
                 let current = queue.shift()
-                console.log(current)
+                console.log(current) //遍历后进行操作
                 let arr = this.AdjList.get(current)
                 for(let edge of arr){
                     if(!alreadyRead[edge]){
@@ -32,7 +32,7 @@
         }
 
         addEdge(vertex,node){
-            if(this.AdjList.has(vertex)){
+            if(this.AdjList.has(vertex)){ //加边是要从现有的顶点进行添加
                 if(this.AdjList.has(node)){
                     let arr = this.AdjList.get(vertex)
                     if(!arr.includes(node)){
