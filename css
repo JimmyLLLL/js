@@ -48,3 +48,129 @@ Document.styleSheets 只读属性，返回一个由 StyleSheet 对象组成的 S
             }
         catch(e){console.log(e);}
     });
+
+
+动画加速transform: translate3d(0,0,0);
+
+
+chrome支持小于12px
+-webkit-text-size-adjust:none;
+
+
+link与@import区别
+1.使用上的区别
+@import是CSS提供的语法规则，只有导入样式的作用
+link的方式，不仅可以加载css文件，也可以指定type类型，RSS，rel等连接属性。
+
+2.加载顺序的区别
+在加载页面方面，使用link的引用的文件，被同时加载；@import引用的文件，要在页面加载完毕后才会被加载。
+
+3.兼容性区别
+link一般不考虑兼容性；@import是css2.1才有的语法，那么只有IE5才能识别，不过换句话来说，现在项目的开发一般就兼容ie9以上。
+
+4.dom的可操控性
+我们通常通过js来改变dom。直接import的方式插入样式，无法改变dom的样式，而通过link的方式，可以通过插入标签来来改变样式。
+
+建议使用link标签，不使用@import的方式。
+这样可以避免@import的语法规则和注意事项，避免产生资源文件下载顺序混乱和http请求过多的烦恼
+
+
+
+BFC
+BFC 是 Block Formatting Context 的简写，我们可以直接翻译成“块级格式化上下文”。
+它会创建一个特殊的区域，在这个区域中，只有 block box 参与布局。
+而 BFC 的一套特点和规则就规定了在这个特殊的区域中如何进行布局，如何进行定位，区域内元素的相互关系和相互作用。这个特殊的区域不受外界影响。
+上面提到了 block box 的概念，block box 是指 display 属性为 block、list-item、table 的元素。
+相应地，我们有 inline box，它是指 display 属性为 inline、inline-block、inline-table 的元素
+
+形成BFC
+根元素或其他包含它的元素
+浮动元素 (元素的 float 不是 none)
+绝对定位元素 (元素具有 position 为 absolute 或 fixed)
+内联块 (元素具有 display: inline-block)
+表格单元格 (元素具有 display: table-cell，HTML 表格单元格默认属性)
+表格标题 (元素具有 display: table-caption, HTML 表格标题默认属性)
+具有 overflow 且值不是 visible 的块元素
+display: flow-root 的元素
+column-span: all 的元素
+
+BFC规则
+内部的 box 将会独占宽度，且在垂直方向，一个接一个排列
+box 垂直方向的间距由 margin 属性决定，但是同一个 BFC 的两个相邻 box 的 margin 会出现边距折叠现象
+每个 box 水平方向上左边缘，与 BFC 左边缘相对齐，即使存在浮动也是如此
+https://gitbook.cn/gitchat/column/5c91c813968b1d64b1e08fde/topic/5cbbeaf5bbbba80861a35c03
+BFC 区域不会与浮动元素重叠，而是会依次排列
+BFC 区域内是一个独立的渲染容器，容器内元素和 BFC 区域外元素不会形成任何干扰
+浮动元素的高度也参与到 BFC 高度的计算当中
+
+小众居中
+.wp {
+    position: relative;
+}
+.box {
+    position: absolute;;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+行内元素居中
+.wp {
+    line-height: 300px;
+    text-align: center;
+    font-size: 0px;
+}
+.box {
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: initial;
+    text-align: left; /* 修正文字 */
+}
+
+table居中
+<table>
+    <tbody>
+        <tr>
+            <td class="wp">
+                <div class="box">test</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+.wp {
+    text-align: center;
+}
+.box {
+    display: inline-block;
+}
+
+
+display：table居中
+.wp {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.box {
+    display: inline-block;
+}
+
+flex居中
+.wp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+grid居中
+.wp {
+    display: grid;
+}
+.box {
+    align-self: center;
+    justify-self: center;
+}

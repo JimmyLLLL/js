@@ -3,3 +3,5 @@ linux自定义快捷键
 语法
 alias xxx="yyy"
 source /etc/bash.bashrc 生效
+
+touch 创建

@@ -1,0 +1,77 @@
+用于绘画的 canvas 元素
+用于媒介播放的 video 和 audio 元素
+对本地离线存储更好的支持（localStorage、sessionStorage）
+新的语义化标签（article、footer、header、nav、section...)
+新的表单控件（calendar、date、time、email、url、search...)
+汉字拼音
+<ruby> 
+    前端开发核心知识进阶
+    <rt>
+        qianduankaifahexinzhishijinjie
+    </rt> 
+</ruby>
+展开收起组件
+<details>
+  <summary>前端开发核心知识进阶</summary>
+前端领域，入门相对简单，可是想要“更上一层楼”却难上加难，也就是我们常说的“职业天花板较低”，君不见——市场上高级/资深前端工程师凤毛麟角。这当然未必完全是坏事，一旦突破瓶颈，在技能上脱颖而出，便是更广阔的空间。那么，如何从夯实基础到突破瓶颈？
+</details>
+原生进度条 progress
+
+打电话发短信写邮件的小技巧
+这些技巧都和 a 标签相关，其中打电话：
+
+<a href="tel: 110">打电话给警察局</a>
+发短信：
+
+<a href="sms: 110">发短信给警察局</a>
+写邮件依赖“mailto”：
+
+<a href="mailto: 110@govn.com">发邮件给警察局</a>
+我们设置可以添加抄送：
+
+<a href="mailto: 110@govn.com?cc=baba@family.com">发邮件给警察局，并抄送给我爸爸</a>
+除了抄送，也可以私密发送：
+
+<a href="mailto: 110@govn.com?cc=baba@family.com&bcc=mama@family.com">发邮件给警察局，并抄送给我爸爸，密送给我妈妈</a >
+群发也可以：
+
+<a href="mailto: 110@govn.com; 120@govn.com">发邮件给警察局，以及 120 急救</a>
+既然都支持群发了，那么定义主题和内容也不在话下：
+
+<a href="mailto: 110@govn.com?subject=SOS">发邮件给警察局，并添加救命主题</a>
+包含内容用 body 体现：
+
+<a href="mailto: 110@govn.com?subject=SOS&body=快来救我">发邮件给警察局，并添加救命主题和内容</a>
+内容也是支持插入图片和链接的，这里不再一一列举。
+
+
+https://gitbook.cn/gitchat/column/5c91c813968b1d64b1e08fde/topic/5cbbef07bbbba80861a35c21
+
+全屏播放 <video x-webkit-airplay="true" webkit-playsinline="true" preload="auto" autoplay src=""></video>
+
+
+if (导航) {
+  return <nav />
+}
+else if (文稿内容、博客内容、评论内容...包含标题元素的内容) {
+  return <article />
+}
+else if (目录抽象、边栏、广告、批注) {
+  return <aside />
+}
+else if (含有附录、图片、代码、图形) {
+  return <figure />
+}
+else if (含有多个标题或内容的区块) {
+ return <section />
+}
+else if (含有段落、语法意义) {
+  return <p /> || <address /> || <blockquote /> || <pre /> || ...
+}
+else {
+  return <div />
+}
+
+Microformats，翻译为微格式，是 HTML 标记某些实体的小模式，这些实体包括人、组织、事件、地点、博客、产品、评论、简历、食谱等。它们是在 HTML 中嵌套语义的简单协议，且能迅速地提供一套可被搜索引擎、聚合器等其他工具使用的 API。
+Microdata 属于 WHATWG（网页超文本应用技术工作小组：Web Hypertext Application Technology Working） HTML 规范，它并不是标准，但这是一个很典型的语义化发展和应用尝试。
+
