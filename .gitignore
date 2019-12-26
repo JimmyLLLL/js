@@ -1,3 +1,5 @@
 /vueENV/node_modules
 /nodeENV/node_modules
 /parcel测试/node_modules
+/parcel测试/.cache
+/parcel测试/dist
