@@ -5,3 +5,11 @@ svg转canvas：canvs
 svg不能外链样式生成canvas --> document.styleSheets 获取全局样式
 --> 正则挑出highchart样式 --> svg转canvas不支持var变量 --> 
 替换var变量 --> 内联
+
+
+canvs模糊问题解决方法：
+canvas.style.height = height + "px";
+canvas.style.width = width + "px";
+canvas.width = width * DPI;
+canvas.height = height * DPI;
+ctx.setTransform(DPI, 0, 0, DPI, 0, 0);
