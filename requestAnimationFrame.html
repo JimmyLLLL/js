@@ -1,0 +1,57 @@
+<html>
+    <script>
+        (function() {
+            var lastTime = 0;
+
+           /* var vendors = ['ms', 'moz', 'webkit', 'o'];
+            //兼容处理
+            for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                                        || window[vendors[x]+'CancelRequestAnimationFrame'];
+            }
+            */
+        
+            if (!window.requestAnimationFrame)
+                window.requestAnimationFrame = function(callback) {
+                    var currTime = new Date().getTime();
+                    //1000/60 = 16.666...
+                    //(currTime - lastTime) 理想情况为0，差值为误差时间
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    /*
+                        timeToCall为0，currTime设为100ms，lastTime为100ms，timeToCall 0ms后（无其它任务栈）执行callback，callback调用requestAnimationFrame
+                        timeToCall为16 || 15（执行时间假如极小），lastTime为116，timeToCall 16ms（无其它任务栈）执行callback，callback调用requestAnimationFrame
+                        timeToCall为16｜｜ 15（执行时间假如极小），lastTime为132，timeToCall 16ms（无其它任务栈）执行callback，callback调用requestAnimationFrame
+                        timeToCall为16 || 15（执行时间假如极小），lastTime为148，timeToCall 16ms（无其它任务栈）执行callback，callback调用requestAnimationFrame
+
+                    */
+                    var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+                    timeToCall);
+                    //预计需要时间
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+        
+            if (!window.cancelAnimationFrame)
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+        }());
+        /*
+            var start = null;
+            var element = document.getElementById('SomeElementYouWantToAnimate');
+            element.style.position = 'absolute';
+
+            function step(timestamp) {
+                if (!start) start = timestamp;
+                var progress = timestamp - start;
+                element.style.left = Math.min(progress / 10, 200) + 'px';
+                if (progress < 2000) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+
+            window.requestAnimationFrame(step);        
+        */
+    </script>
+</html>

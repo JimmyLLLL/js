@@ -180,3 +180,19 @@ firstchild是父元素下的第一个这种类型，证明是可以有多个firs
 https://www.w3school.com.cn/tiy/t.asp?f=css_sel_firstchild
 
 offsetWidth（算border）与clientWidth（算border）
+
+will－change
+合成层的好处是不会影响到其他元素的绘制，因此，为了减少动画元素对其他元素的影响，从而减少 paint，我们需要把动画效果中的元素提升为合成层。
+但需要注意的是，不要创建太多的渲染层。因为每创建一个新的渲染层，就意味着新的内存分配和更复杂的层的管理。
+will－change 类似 transform: translate3d(0, 0, 0); 硬件加速
+兼容性一般，can i use
+不要一直挂着，hover的时候再加will－change，默认是auto，js可以设置auto来移除
+
+.will-change-parent:hover .will-change {
+  will-change: transform;
+}
+.will-change {
+  transition: transform 0.3s;
+}
+.will-change:hover {
+  transform: scale(1.5);

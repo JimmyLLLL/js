@@ -1,0 +1,65 @@
+1.浏览器把获取到的HTML代码解析成1个DOM树（chrome开发者里面是dom树，能看到head与display:none），HTML中的每个tag都是DOM树中的1个节点，根节点就是我们常用的document对象。DOM树里包含了所有HTML标签，包括display:none隐藏，还有用JS动态添加的元素等。
+2.浏览器把所有样式(用户定义的CSS和用户代理)解析成样式结构体，在解析的过程中会去掉浏览器不能识别的样式，比如IE会去掉-moz开头的样式，而FF会去掉_开头的样式。
+3.DOM Tree 和样式结构体组合后构建render tree, render tree类似于DOM tree，但区别很大，render tree能识别样式，render tree中每个NODE都有自己的style，而且 render tree不包含隐藏
+的节点 (比如display:none的节点，还有head节点)，因为这些节点不会用于呈现，而且不会影响呈现的，所以就不会包含到 render tree中。注意 visibility:hidden隐藏的元素还是会包含到 render tree中的，因为
+visibility:hidden 会影响布局(layout)，会占有空间。根据CSS2的标准，render tree中的每个节点都称为Box (Box dimensions)，理解页面元素为一个具有填充、边距、边框和位置的盒子。
+4.一旦render tree构建完毕后，浏览器就可以根据render tree来绘制页面了。
+
+
+1.当render tree中的一部分(或全部)因为元素的规模尺寸，布局，隐藏等改变而需要重新构建。这就称为回流(reflow)。每个页面至少需要一次回流，就是在页面第一次加载的时候。在回流的时候，浏览器会使渲染树
+中受到影响的部分失效，并重新构造这部分渲染树，完成回流后，浏览器会重新绘制受影响的部分到屏幕中，该过程成为重绘。
+2.当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。
+回流必将引起重绘，而重绘不一定会引起回流。
+
+
+回流场景
+1.添加或者删除可见的DOM元素；
+2.元素位置改变；
+3.元素尺寸改变——边距、填充、边框、宽度和高度
+4.内容改变——比如文本改变或者图片大小改变而引起的计算值宽度和高度改变；
+5.页面渲染初始化；
+6.浏览器窗口尺寸改变——resize事件发生时；
+
+var s = document.body.style;
+s.padding = "2px"; // 回流+重绘
+s.border = "1px solid red"; // 再一次 回流+重绘
+s.color = "blue"; // 再一次重绘
+s.backgroundColor = "#ccc"; // 再一次 重绘
+s.fontSize = "14px"; // 再一次 回流+重绘
+// 添加node，再一次 回流+重绘
+document.body.appendChild(document.createTextNode('abc!'));
+
+回流比重绘的代价要更高，回流的花销跟render tree有多少节点需要重新构建有关系，假设你直接操作body，比
+如在body最前面插入1个元素，会导致整个render tree回流，这样代价当然会比较高，但如果是指body后面插入1个元素，则不会影响前面元素的回流。
+
+
+浏览器如何处理
+每句JS操作都去回流重绘的话，浏览器可能就会受不了。
+
+浏览器会维护1个队列，把所有会引起回流、重绘的操作放入这个队列，等队列中的操作到了一定的数量或者到了一定的时间间隔，浏览器就会flush队列，进行一个批处理。这样就会让多次的回流、重绘变成一次回流重绘。
+
+虽然有了浏览器的优化，但有时候我们写的一些代码可能会强制浏览器提前flush队列，这样浏览器的优化可能就起不到作用了。当你请求向浏览器请求一些 style信息的时候，就会让浏览器flush队列：
+
+offsetTop, offsetLeft, offsetWidth, offsetHeight
+scrollTop/Left/Width/Height
+clientTop/Left/Width/Height
+width,height
+请求了getComputedStyle(), 或者 IE的 currentStyle
+
+当你请求上面的一些属性的时候，浏览器为了给你最精确的值，需要flush队列，因为队列中可能会有影响到这些值的操作。即使你获取元素的布局和样
+式信息跟最近发生或改变的布局信息无关，浏览器都会强行刷新渲染队列。引擎会重新渲染来确保获取的值是实时的。
+
+display:none 与 visibility:hidden 的异同
+两者都可以在页面上隐藏节点。
+display:none 隐藏后的元素不占据任何空间。它的宽度、高度等各种属性值都将“丢失”
+visibility:hidden 隐藏的元素空间依旧存在。它仍具有高度、宽度等属性值
+性能的角度而言，即是回流与重绘的方面。
+display:none 会触发 reflow（回流）
+visibility:hidden 只会触发 repaint（重绘），因为没有发现位置变化
+他们两者在优化中 visibility:hidden 会显得更好，因为我们不会因为它而去改变了文档中已经定义好的显示层次结构了。
+
+对子元素的影响
+display:none 一旦父节点元素应用了 display:none，父节点及其子孙节点元素全部不可见，而且无论其子孙元素如何设置 display 值都无法显示；
+visibility:hidden 一旦父节点元素应用了 visibility:hidden，则其子孙后代也都会全部不可见。不过存在隐藏“失效”的情况。当其子孙元素应用了 visibility:visible，那么这个子孙元素又会显现出来。
+
+
