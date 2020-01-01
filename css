@@ -196,3 +196,38 @@ will－change 类似 transform: translate3d(0, 0, 0); 硬件加速
 }
 .will-change:hover {
   transform: scale(1.5);
+
+  
+
+position: absolute 中的 %
+对于设置绝对定位 position absolute 的元素，我们可以使用 left right 表示其偏移量，我们把这个元素的祖先元素中第一个存在定位属性的元素成为参照物元素，其中的 % 是相对于参照物的，left 相对于参照物的 width，top 相对于这个参照物的 height。
+
+position: relative 中的 %
+对于设置相对定位 position relative 的元素，% 的数值是相对与自身的，left 相对于自己的 width，top 相对于自己的 height。
+
+position: fixed 中的 %
+对于设置固定定位 position fixed 的元素，% 的数值是相对于视口的，left 相对于视口的 width，top 相对于视口的 height。
+
+margin 和 padding 的 %
+margin 和 padding 当中的 % 非常特殊，它是相对于父元素的宽度。没错，margin-top: 30%，相当于父元素宽度的 30%
+
+border-radius 的 %
+想想我们经常对一个正方形元素设置：
+
+border-radius: 50%
+得到一个圆形，因此不难发现这里的 % 也是相对于自身宽高的。
+
+background-size 的 %
+background-size 的百分比和 border-radius 一样，也是相对于自身的宽高。
+
+transform： translate
+transform 的 translate 属性 % 是相对于自身的宽高，这也是我们上述代码能够实现居中的原因。
+
+text-indent 的 %
+text-indent 这个属性可以设置首行缩进，当使用 % 时，它是相对于父元素的 width。
+
+font-size 的 %
+相对于父元素的字体大小。
+
+line-height 的 %
+line-height 设置行高时，如果单位为 %，则相对于该元素的 font-size 数值。

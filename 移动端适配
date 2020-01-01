@@ -1,0 +1,22 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+禁用了用户缩放功能，使页面宽度和设备宽度对齐，一般这种操作也是移动端的响应式适配的标配。
+
+font-size = document.documentElement.clientWidth / 3.75
+为什么这么计算：淘宝的工程师是按照设计 375px 的视觉稿完成的。在 375px 视觉稿下，html 的 font-size 为 100，那么如果宽度是 75px 的元素，就可以设置为 0.75rem（100 * 0.75 = 75px）
+
+window.addEventListener("resize", () => {
+    if (window.orientation === 180 || window.orientation === 0) { 
+        console.log('竖屏')
+    };
+    if (window.orientation === 90 || window.orientation === -90 ){ 
+        console.log('横屏')
+    }  
+})
+我们同样可以使用纯 CSS 来实现不同场景下的布局：
+
+@media screen and (orientation: portrait) {
+  /*竖屏样式代码*/
+} 
+@media screen and (orientation: landscape) {
+  /*横屏样式代码.*/
+}

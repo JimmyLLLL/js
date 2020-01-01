@@ -3,16 +3,70 @@ xss:简单理解为就是输入框里注入了脚本
 
 csrf:浏览着网页，突然陌生人发了一个这个网页的比如交易操作的链接给你
 
+1、 get攻击
+
+最简单的CSRF攻击：
+用户Alice登录访问某有csrf漏洞的银行网站 http://www.examplebank.com。
+Alice被某些信息诱导访问危险网站B。
+危险网站B上有一个<img>标签<img src="http://www.examplebank.com/from=Alice&amount=100&to=Bob">
+这个img标签的src不指向图片，而是一个http请求，这个请求让银行服务器从Alice转100到Bob账户上，由于Alice已经登录，浏览器发请求时候会带上cookie骗取服务器信任得到响应。
+这样Alice的钱就被悄悄转走了。
+<a href="http:xxx.com/xxx">点击</a>
+<img src="http:xxx.com/xxx">
+
+2、post攻击
+
+危险网站伪造一个隐藏的表单，在onload事件中，触发表单的提交事件。 
+为防止跳转，可以加一个隐藏的iframe，在iframe中处理提交的请求。
+
+伪造http请求特点：
+
+B网站向A网站请求
+带A网站Cookies，但是B拿不到cookie，也看不到cookie内容
+不访问A网站前端
+referer为B网站（关键） samesite
+
+1、禁止第三方网站带Cookies
+same-site属性:Strict,Lax
+header('Set-Cookie: test=12345; SameSite=Lax')
+缺点：兼容性
+
+2、验证码
+B 不访问A网站前端，所以在A前端页面加入随机验证码来识别请求是不是用户主动发起的。B网站无法伪造一个完整请求。
+node中ccap模块可以生成验证码：npm install ccap
+优点：简单粗暴，低成本，可靠。
+缺点：用户不友好。每次都要填，验证码输入错误要重填。
+
+3、检查网页来源
+referer是HTTP请求头，包含请求来源地址。【正确单词是referrer，但是规范中就是错的】
+服务器知道正确来源。 验证referer禁止来自第三方网站的请求。
+req.headers.referer拿到。
+file本地协议访问和http协议访问有点不一样，不会发送referer。
+if(referer.indexof('localhost')===-1){
+　　throw new Error('非法请求');
+}
+
+检查post提交时候的来源，来源不正确进行清空数据，返回403提示等错误处理。
+
+问题：
+
+B网站后面加上http://127.0.0.1:4200/csrf.html?haha=localhost。就可以匹配成功了。
+
+解决：用正则去匹配。
+
+if(/^https?:\/\/localhost/.test(referer)){
+
+}
+
+缺点：有些浏览器允许用户指定没有referer。需要对referer为空时候进行取舍，要不要通过。
+
+Referer值会记录访问来源，有些用户认为侵犯自己隐私权，有些用户可能会开启浏览器防止跟踪功能，不提供Referer，导致正常用户请求被拒绝。 
+
+
+
+总结：
+涉及敏感操作的请求改为POST请求
 解决方案有重要操作加入验证码、重新输入密码，验证HTTP Referer字段来判断请求来源，运用token
 
 选项；为了防御 XSRF，需要开发者设置 SameSite（同源） 选项。需要注意，并不是所有浏览器都支持 SameSite。
-
-个人思路防CSRF：
-前提：防好XSS
-前端后端同套JWT，secret算法
-前端用户密码用secret算法加密payload获得secret，session存secret，传secret，payload
-后端根据payload生成secret，payload+secret生成token，给前端cookies http-only存
-每次请求带secret和cookies
-后端直接验证jwt
-这样csrf即使进入了网，也读不到secret（跨标签无法读取session）
 

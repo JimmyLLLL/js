@@ -43,3 +43,55 @@ preload通常用于本页面要用到的关键资源，包括关键js、字体�
 如果确实需要多次使用，就用一个变量缓存起来。对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。
 
 transform 和 opacity 效果，不会触发 layout 和 paint
+
+
+var h1 = element1.clientHeight
+element1.style.height = (h1 * 2) + 'px'
+
+var h2 = element2.clientHeight
+element2.style.height = (h2 * 2) + 'px'
+
+var h3 = element3.clientHeight
+element3.style.height = (h3 * 2) + 'px'
+上面的代码，会造成典型的布局抖动问题。
+
+布局抖动是指 DOM 元素被 JavaScript 多次反复读写，导致文档多次无意义重排。
+我们知道浏览器很“懒”，它会收集（batch）当前操作，统一进行重排。可是，如果在当前操作完成前，从 DOM 元素中获取值，这会迫使浏览器提早执行布局操作，这称为强制同步布局。
+这样的副作用对于低配置的移动设备来说，后果是不堪设想的。
+
+我们对 element1 进行读、写操作之后，又企图去获取 element2 的值，浏览器为了获取正确的值，只能进行重排
+
+优化思路为：
+
+// 读
+var h1 = element1.clientHeight
+var h2 = element2.clientHeight
+var h3 = element3.clientHeight
+
+// 写（无效布局）
+element1.style.height = (h1 * 2) + 'px'
+element2.style.height = (h2 * 2) + 'px'
+element3.style.height = (h3 * 2) + 'px'
+
+解决方案二：在浏览器下次重绘前统一执行回调函数，优化方案：
+
+// 读
+var h1 = element1.clientHeight
+// 写
+requestAnimationFrame(() => {
+    element1.style.height = (h1 * 2) + 'px'
+})
+
+// 读
+var h2 = element2.clientHeight
+// 写
+requestAnimationFrame(() => {
+    element2.style.height = (h2 * 2) + 'px'
+})
+
+// 读
+var h3 = element3.clientHeight
+// 写
+requestAnimationFrame(() => {
+    element3.style.height = (h3 * 2) + 'px'
+})
