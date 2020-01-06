@@ -1,0 +1,30 @@
+Ajax 技术的核心是XMLHttpRequest 对象（简称XHR）。
+XHR 为向服务器发送请求和解析服务器响应提供了流畅的接口。
+能够以异步方式从服务器取得更多信息，意味着用户单击后，可以不必刷新页面也能取得新数据。
+
+fetch号称是ajax的替代品，它的API是基于Promise设计的，旧版本的浏览器不支持Promise，需要使用polyfill es6-promise,举个例子：
+
+// 原生XHR
+var xhr = new XMLHttpRequest();
+xhr.open('GET', url);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText)   // 从服务器获取数据
+    }
+}
+xhr.send()
+// fetch
+fetch(url)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+
+当接收到一个代表错误的 HTTP 状态码时，从 fetch()返回的 Promise 不会被标记为 reject， 
+即使该 HTTP 响应的状态码是 404 或 500。相反，它会将 Promise 状态标记为 resolve （但是会将 resolve 的返回值的 ok 属性设置为 false ），
+仅当网络故障时或请求被阻止时，才会标记为 reject。
+默认情况下, fetch 不会从服务端发送或接收任何 cookies, 
+如果站点依赖于用户 session，则会导致未经认证的请求（要发送 cookies，必须设置 credentials 选项）.

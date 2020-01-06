@@ -7,9 +7,9 @@
             /*
                 暂存函数是因为
                 let promise = new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    resolve('data')  这边异步了
-                }, 2000)
+                    setTimeout(() => {
+                        resolve('data')  这边异步了
+                    }, 2000)
                 })
                 promise.then(data => {
                     console.log(data)     为了data不为undefined，把这个函数存起来，resolve再调用
@@ -78,8 +78,8 @@
                 /*
                     避免有人写成
                     promise.then(onfulfilled = data => {
-                    console.log(data)
-                    return onfulfilled(data)
+                        console.log(data)
+                        return onfulfilled(data)
                     })
                 */
                 reject(new TypeError('error due to circular reference')) 

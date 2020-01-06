@@ -123,3 +123,30 @@ let deepClone = function(sourceObj){
 //实际上，js基础好的同学一看这个深度拷贝肯定是有问题的，就是嵌套对层对象是有问题的，深层对象会变成一句string，留你们自己测试
 //深层对象的解决办法也有，很暴力，记得上面的shallowClone浅拷贝吗？在上面加个递归吧
 
+
+
+function Foo() {
+  getName = function () { console.log(1) }
+  return this
+}
+Foo.getName = function () { console.log(2) }
+Foo.prototype.getName = function() { console.log(3) }
+var getName = function () { console.log(4) }
+function getName() {
+  console.log(5)
+}
+
+Foo.getName() //2 函数也是一个 object, 可以拥有属性和方法, Foo.getName 被赋值为一个输出 2 的函数, 所以输出 2
+getName() //4 变量提升问题，getName后来被赋值function () { console.log(4) }
+Foo().getName() //1 全局getName被改变
+getName() //1 全局getName被改变
+new Foo.getName() //2 new会执行这个函数
+new Foo().getName() //3
+/*
+var foo = new Foo()
+foo.getName()
+
+函数也是属性，可以Foo.getName，但是
+Foo.getName将不会被记录到new里面，因为无论是Foo本身的this也没有赋值，还是prototype也没getNanme函数，所以Foo.getName函数会在nwe后丢失
+ */
+new new Foo().getName() //3，没什么意义，这边new Foo().getName()已经是prototype.getName()执行过了，返回一个实例对象，再new也没意义
