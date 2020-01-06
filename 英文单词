@@ -1,53 +1,52 @@
-fatigue adj 疲劳的
-trampoline n 蹦床
-accumulator n累加器，蓄电池
-sensation n 感觉，感动
-raster n 光栅
-vertex n 顶点 
-mode n众数
-omitted adj 省略的、遗漏的
-optionally adj 随意的、随机的
-align v 校准、调整
-ongoing adj 仍在进行的
-kit n 成套工具、用具包
-systematic adj 成体系的
-dine v 吃饭
-commend v 称赞、表扬
-muse v 沉思
-brood v 抑郁地沉思
-meditate v 沉思
-hush n 沉默
-repeal v 撤销
-lathe n 车床
-row n 吵嚷、吵架
-mock v 嘲弄
-supersonic adj 超音的
-ultrasonic adj 超音的
-reign n 朝代
-surpass v 超过
-waggon n 敞篷车厢
-haunt v 常去、经常出没
-shovel n 铲
-toad n 蟾蜍
-errand n 差使，差事
-ascertain v 查明
-groove n 槽
-tactics n 策略
-manipulate v 操作
-hatch v 舱盖
-spectator n 参观者
-parameter n 参数
-substance n 财产、内容
-rule n 裁决，裁定
-friction n 擦热皮肤
-sermon n 讲道、说教
-absent adj 不在意的
-awkward adj 不雅观的
-wretched adj 不幸的
-stuffy adj 不透气的
-irrespective adj 不考虑的
-makeup n 组织
-rmost adj 最外面的
+fatigue adj 疲劳的 fatigue adj 疲劳的
+trampoline n 蹦床 trampoline n 蹦床
+accumulator n 累加器，蓄电池 accumulator n 累加器、蓄电池
+sensation n 感觉，感动 sensation n 感觉，感动
+raster n 光栅 raster n 光栅
+vertex n 顶点 vertex n 顶点
+mode n 众数 mode n 众数
+omitted adj 省略的、遗漏的 omitted adj 省略的
+optionally adj 随意的、随机的 optionally adj 随意的、随机的
+align v 校准、调整 align v 校准、调衡
+ongoing adj 仍在进行的 ongoing adj 仍在进行的
+kit n 成套工具、用具包 kit n 成套工具、用具包
+systematic adj 成体系的 systematic adj 成体系的
+dine v 吃饭 dine v 吃饭
+commend v 称赞、表扬 commend v 称赞、表扬
+muse v 沉思 muse v 沉思
+brood v 抑郁地沉思 brood 抑郁地沉思
+meditate v 沉思 meditate v 沉思
+hush n 沉默 hush n 沉默
+repeal v 撤销 repeal v 撤销
+lathe n 车床 lathe n 车床
+row n 吵嚷、吵架 row n 吵嚷、吵架
+mock v 嘲弄 mock v 嘲弄
+supersonic adj 超音的 supersonic adj 超音的
+ultrasonic adj 超音的 ultrasonic adj 超音的
+reign n 朝代 reign n 朝代
+surpass v 超过 surpass v 超过
+waggon n 敞篷车厢 waggon n 敞篷车厢
+haunt v 常去、经常出没 haunt v 常去、经常出没
+shovel n 铲 shovel n 铲
+toad n 蟾蜍 toad n 蟾蜍
+errand n 差使，差事 errand n 差使，差事
+ascertain v 查明 ascertain v 查明
+groove n 槽 groove n 槽
+tactics n 策略 tactics n 策略
+manipulate v 操作 manipulate v 操作
+hatch v 舱盖 hatch v 舱盖
+spectator n 参观者 spectator n 参观者
+parameter n 参数 parameter n 参数
+substance n 财产、内容 substance n 财产、内容
+rule n 裁决，裁定 rule n 裁决、裁定
+friction n 擦热皮肤 friction n 擦热皮肤
+sermon n 讲道、说教 sermon n 讲道、说教
+absent adj 不在意的 absent adj 不在意的
+awkward adj 不雅观的 awkward adj 不雅观的
+wretched adj 不幸的 wretched adj 不幸的
+stuffy adj 不透气的 stuffy adj 不透气的
+irrespective adj 不考虑的 irrespective adj 不考虑的
+makeup n 组织 makeup n 组织
 optimum n 最适条件
 outeintegral adj 组成的
 grunt v 用作呼噜声
@@ -252,3 +251,6 @@ compensation n 补偿，赔偿金
 weppy adj 泪眼汪汪的
 composite n 复合材料
 bias n 偏见
+texture n 质地、纹理
+defer ad 推迟的
+credentials n 证书

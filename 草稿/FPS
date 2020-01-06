@@ -1,0 +1,6 @@
+思路：
+
+window.requestAnimationFrame －> 前后补偿以准确
+
+
+js线程 －－－－－－－－－－－－－－

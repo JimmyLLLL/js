@@ -14,3 +14,5 @@ https://www.cnblogs.com/lalalagq/p/9921144.html
 
 
 W3C 指 World Wide Web Consortium
+
+performance.now()是相对于页面加载和数量级更精确。用例包括基准测试和其他需要高分辨率时间的情况，例如媒体（游戏，音频，视频等），用来测试性能一流

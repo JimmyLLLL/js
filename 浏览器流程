@@ -63,3 +63,26 @@ display:none 一旦父节点元素应用了 display:none，父节点及其子孙
 visibility:hidden 一旦父节点元素应用了 visibility:hidden，则其子孙后代也都会全部不可见。不过存在隐藏“失效”的情况。当其子孙元素应用了 visibility:visible，那么这个子孙元素又会显现出来。
 
 
+Blink 内核早期架构
+
+以 Chrome 浏览器内核 Blink 渲染页面为例。对早期的 Chrome 浏览器而言，每个页面 Tab 对应一个独立的 renderer 进程，Renderer 进程中包含了主线程和合成线程。早期 Chrome 内核架构：
+
+renderprocess
+
+主线程主要负责：
+
+Javascript 的计算与执行
+CSS 样式计算
+Layout 计算
+将页面元素绘制成位图（paint）(光栅化（Raster）)
+位图 －－> 合成线程
+
+合成线程则主要负责：
+
+将位图(GraphicsLayer 层)以纹理(texture)的形式上传给 GPU
+计算页面的可见部分和即将可见部分（滚动）
+CSS 动画处理
+通知 GPU 绘制位图到屏幕上
+
+对于 JS 动画而言，它们运行时的帧率即是主线程和合成线程加起来消耗的时间。对于流畅动画而言，我们希望它们每一帧的耗时保持在 16.67ms 之内;
+而对于 CSS 动画而言，由于其流程不受主线程的影响，所以希望能得到合成线程的消耗的时间，而合成线程的绘制频率也反映了滚动和 CSS 动画的流畅性。

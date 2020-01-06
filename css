@@ -115,6 +115,24 @@ BFC 区域内是一个独立的渲染容器，容器内元素和 BFC 区域外�
     bottom: 0;
     margin: auto;
 }
+margin:auto 为什么可以实现垂直居中？
+margin概念：
+margin属性为给定元素设置所有四个（上下左右）方向的外边距属性。
+这是四个外边距属性设置的简写。
+四个外边距属性设置分别是：margin-top，margin-right，margin-bottom和margin-left。指定的外边距允许为负数。
+margin的top和bottom属性对非替换内联元素无效，例如span和code。
+
+为什么能实现垂直居中
+
+块状水平元素，如div元素（下同），在默认情况下（非浮动、绝对定位等），水平方向会自动填满外部的容器；（流体特性）
+如果有margin-left/margin-right,padding-left/padding-right,border-left-width/border-right-width等，实际内容区域会变窄。
+
+但是，当一个绝对定位元素（丧失流体特性），其对立定位方向属性同时有具体定位数值的时候（top0，left0之类），流体特性就发生了。
+具有流体特性绝对定位元素的margin:auto的填充规则和普通流体元素一模一样，含有以下特性：
+如果一侧定值，一侧auto，auto为剩余空间大小；
+
+如果两侧均是auto, 则平分剩余空间
+
 
 行内元素居中
 .wp {
@@ -231,3 +249,4 @@ font-size 的 %
 
 line-height 的 %
 line-height 设置行高时，如果单位为 %，则相对于该元素的 font-size 数值。
+
