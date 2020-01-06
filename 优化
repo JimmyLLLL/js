@@ -1,3 +1,5 @@
+link标签"dns-prefetch"dns预解析优化速度
+
 prefetch
 <link rel="prefetch" ></link>
 这段代码告诉浏览器，这段资源将会在未来某个导航或者功能要用到，但是本资源的下载顺序权重比较低。也就是说prefetch通常用于加速下一次导航，而不是本次的。
