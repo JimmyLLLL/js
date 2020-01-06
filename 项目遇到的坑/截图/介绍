@@ -13,3 +13,9 @@ canvas.style.width = width + "px";
 canvas.width = width * DPI;
 canvas.height = height * DPI;
 ctx.setTransform(DPI, 0, 0, DPI, 0, 0);
+
+
+方法2：
+window.print()
+结合https://www.paperplane.app/blog/print-css-basics/
+但是js监听页面尺寸会有点问题
