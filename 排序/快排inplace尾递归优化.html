@@ -1,0 +1,50 @@
+<html>
+  <script>
+    const quickSort = (array, stack) => {
+        let start = stack[0]
+        let end = stack[1]
+
+        let value = array[start]
+
+        let i = start
+        let j = end
+
+        while (i < j) {
+            while (i < j && array[j] >= value) {
+                j--
+            }
+            if (i < j) {
+                array[i++] = array[j]
+            }
+
+            while (i < j && array[i] < value) {
+                i++
+            }
+
+            if (i < j) {
+                array[j--] = array[i]
+            }
+        }
+
+        arr[i] = value
+
+        // 移除已经使用完的下标
+        stack.shift()
+        stack.shift() 
+
+        // 存入新的下标
+        if (i + 1 < end) {
+            stack.unshift(i + 1, end)
+        }
+        if (start < i - 1) {
+            stack.unshift(start, i - 1)
+        }
+
+        if (stack.length == 0) {
+            return;
+        }
+
+        return quickSort(array, stack)
+    }
+  </script>
+</html>

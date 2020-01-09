@@ -1,0 +1,51 @@
+<html>
+  <script>
+    //一般inplace考虑用双指针
+    let count = 0
+    const quickSort = (array, start=0, end=arr.length - 1) => {      
+        if (start >= end) {
+          return
+        }
+      
+      
+        let i = start
+        let j = end
+        const value = array[i]
+        while (i < j) { 
+          count++
+          // 找出右边第一个小于参照数的下标并记录
+          while (i < j && array[j] >= value) {
+            count++
+            j--
+          }
+          //结束后已经是array[j] < value j的下标
+          //边界：没有array[j] < value的j，这时i=j
+      
+          if (i < j) {
+              array[i++] = array[j] //开始的i被赋值j值，const value = array[start]这里存了i值
+          }
+      
+          // 找出左边第一个大于参照数的下标，并记录
+          while (i < j && array[i] < value) {
+            count++
+            i++
+          }
+
+          //原来的j已经放在i了，现在i++后的i可以放心放在j
+          //丢失的值仍然是const value = array[start]这里存了i值
+          if (i < j) {
+            array[j--] = array[i]
+          }
+          //二轮while，正常情况下，i被j占了，j被++i占了，j--,i++,i++位置空虚，const value = array[start]存丢失的i
+        }
+        array[i] = value
+      
+        quickSort(array, start, i - 1)
+        quickSort(array, i + 1, end)
+      }  
+      const a= [123,123,4,3542,534,564,67,8,67,86,546,547,56,7]
+      quickSort(a,0,a.length-1)
+      console.log(a)
+      console.log(count) //复杂度
+  </script>
+</html>
