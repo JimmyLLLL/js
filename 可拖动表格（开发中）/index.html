@@ -10,17 +10,17 @@
             position: absolute;
             top: 0;
             right: -1px;
-            cursor: pointer;
             display: block;
             pointer-events: auto;
         }
         th:not(:last-child),td:not(:last-child){
             position: relative;
             pointer-events: none;
+            cursor: pointer;
         }
         th:not(:last-child):hover::after,td:not(:last-child):hover::after{
           background: black;
-
+          cursor:e-resize;
         }
     </style>
     <body>
@@ -49,15 +49,18 @@
     </body>
     <script>
       //https://www.cnblogs.com/liangcheng11/p/5754379.html dom各类宽高
-      document.getElementById('table').onmousedown = function(tableEvent){
+      const table = document.getElementById('table') //同时改变table宽度
+      table.onmousedown = function(tableEvent){
         const nodeName = tableEvent.target.nodeName.toLowerCase()
         if(nodeName!=='th'&&nodeName!=='td') return
         const startX = tableEvent.screenX
         const beforeWidth = tableEvent.target.offsetWidth
+        const beforeTableWidth = table.offsetWidth
         document.onmousemove = function(documentEvent){
           const currentX = documentEvent.screenX
           const target = currentX - startX
           tableEvent.target.style.width = beforeWidth + target + 'px'
+          table.style.width = beforeTableWidth + target +'px'
         }
         document.onmouseup = function(){
           document.onmousemove = null
