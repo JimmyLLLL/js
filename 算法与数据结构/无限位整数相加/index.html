@@ -58,7 +58,44 @@
             }
             return maxArrRev
         }
-
+        console.time()
         console.log(add('999991238831231238123','9999912391231299999910101'))
+        console.timeEnd()
+        function addNum(num1,num2){
+            while(num1.length>num2.length){
+                num2 = '0' + num2
+            }
+            while(num1.length < num2.length){
+                num1 = '0' + num1
+            }
+            num1 = num1.split('')
+            num2 = num2.split('')
+            const result = []
+            const len = num1.length
+            let addOne = false
+            for(let i=len-1;i>=0;i--){
+                let twoSum
+                if(addOne){
+                    twoSum = +num2[i] + +num1[i] +1
+                    addOne=false
+                }else{
+                    twoSum = +num2[i] + +num1[i]
+                }
+
+                if(twoSum > 9){
+                    twoSum = twoSum%10
+                    addOne=true
+                }
+                result.unshift(twoSum)
+            }
+            if(addOne){
+                result.unshift(1)
+            }
+            return result.join('')
+        }
+        console.time()
+        console.log(addNum('999991238831231238123','9999912391231299999910101'))
+        console.timeEnd()
+
     </script>
 </html>

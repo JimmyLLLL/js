@@ -1,0 +1,11 @@
+Vue webpack-dev-server热更新失败
+
+错误原因： 在页面中引入一个组件，然后把组件的父级目录名开头字母写成大写（原本是小写的），但是没有报引入失败，但是webpack监听不了文件的更新。如下：
+
+// 正确引入方法
+import ComA from '@/components/foldername/ComA.vue'
+
+// 结果这样引入， 把foldername的f大写了
+import ComA from '@/components/Foldername/ComA.vue'
+
+总结一下原因：引入路径错误，导致webpack监听失败。

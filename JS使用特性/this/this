@@ -1,0 +1,137 @@
+this 的指向，是在调用函数时根据执行上下文所动态确定的
+
+在函数体中，简单调用该函数时（非显式/隐式绑定下），严格模式下 this 绑定到 undefined，否则绑定到全局对象 window／global；
+一般构造函数 new 调用，绑定到新创建的对象上；
+一般由 call/apply/bind 方法显式调用，绑定到指定参数的对象上；
+一般由上下文对象调用，绑定在该对象上；
+箭头函数中，根据外层上下文绑定的 this 决定 this 指向。
+
+function f1 () {
+    console.log(this)
+}
+function f2 () {
+    'use strict'
+    console.log(this)
+}
+f1() // window
+f2() // undefined
+
+const o1 = {
+    text: 'o1',
+    fn: function() {
+        return this.text
+    }
+}
+const o2 = {
+    text: 'o2',
+    fn: function() {
+        return o1.fn()
+    }
+}
+const o3 = {
+    text: 'o3',
+    fn: function() {
+        var fn = o1.fn
+        return fn()
+    }
+}
+undefined
+原因是o3.fn()调用完后把fn()返回到window环境调用，window没有text，则undefined
+
+console.log(o1.fn()) o1
+console.log(o2.fn()) o1
+console.log(o3.fn()) undefined 
+
+可以紧接着追问，如果我们需要让：
+
+console.log(o2.fn())
+输出 o2，且不用call、apply、bind，该怎么做？
+
+const o1 = {
+    text: 'o1',
+    fn: function() {
+        return this.text
+    }
+}
+const o2 = {
+    text: 'o2',
+    fn: o1.fn
+}
+
+console.log(o2.fn())
+
+new的实现
+var obj  = {}
+obj.__proto__ = Foo.prototype
+Foo.call(obj)
+
+如果构造函数中显式返回一个值，且返回的是一个对象，那么 this 就指向这个返回的对象；如果返回的不是一个对象，那么 this 仍然指向实例。
+
+function Foo(){
+    this.user = "Lucas"
+    const o = {}
+    return o
+}
+const instance = new Foo()
+console.log(instance.user)  //undefined
+
+我们常常把通过 call、apply、bind、new 对 this 绑定的情况称为显式绑定；根据调用关系确定的 this 指向称为隐式绑定。
+
+function foo (a) {
+    console.log(this.a)
+}
+
+const obj1 = {
+    a: 1,
+    foo: foo //隐形绑定
+}
+
+const obj2 = {
+    a: 2,
+    foo: foo
+}
+
+obj1.foo.call(obj2)
+obj2.foo.call(obj1)
+
+输出分别为 2、1，也就是说 call、apply 的显式绑定一般来说优先级更高。
+
+var baz = new bar(3)
+console.log(baz.a)
+将会输出 3。我们看 bar 函数本身是通过 bind 方法构造的函数，其内部已经对将 this 绑定为 obj1，它再作为构造函数，通过 new 调用时，返回的实例已经与 obj1 解绑。 也就是说：
+
+new 绑定修改了 bind 绑定中的 this，因此 new 绑定的优先级比显式 bind 绑定更高。
+
+var a = 123
+const foo = () => a => {
+    console.log(this.a)
+}
+
+const obj1 = {
+    a: 2
+}
+
+const obj2 = {
+    a: 3
+}
+
+var bar = foo.call(obj1)
+console.log(bar.call(obj2))
+将会输出 123。
+
+const a = 123
+const foo = () => a => {
+    console.log(this.a)
+}
+
+const obj1 = {
+    a: 2
+}
+
+const obj2 = {
+    a: 3
+}
+
+var bar = foo.call(obj1)
+console.log(bar.call(obj2))
+答案将会输出为 undefined，原因是因为使用 const 声明的变量不会挂载到 window 全局对象当中。因此 this 指向 window 时，自然也找不到 a 变量了

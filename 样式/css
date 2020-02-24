@@ -249,4 +249,21 @@ font-size 的 %
 
 line-height 的 %
 line-height 设置行高时，如果单位为 %，则相对于该元素的 font-size 数值。
+1.5与150%区别
+区别体现在子元素继承时，如下：
+父元素设置line-height:1.5会直接继承给子元素，子元素根据自己的font-size再去计算子元素自己的line-height。
+父元素设置line-height:150%是计算好了line-height值，然后把这个计算值给子元素继承，子元素继承拿到的就是最终的值了。此时子元素设置font-size就对其line-height无影响了。
 
+一、div内显示一行，超出部分用省略号显示
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+二、div内显示两行或三行，超出部分用省略号显示
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;（行数）
+    -webkit-box-orient: vertical;

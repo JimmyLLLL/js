@@ -1,6 +1,7 @@
 Function.prototype.bind = Function.prototype.bind || function (context){
     const that = this
     const args = Array.prototype.slice.call(arguments,1)
+    // 下面为验证是不是作为构造函数做准备
     const F = function () {}
     F.prototype = this.prototype
     const bound = function () {

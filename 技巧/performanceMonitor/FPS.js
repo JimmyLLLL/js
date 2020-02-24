@@ -14,9 +14,7 @@ var lastFameTime = performance.now();
   
 var loop = function () {
     var now = performance.now(); //当前帧开始时间
-    var fs = (now - lastFameTime); //上一帧的执行时间长
-    var fps = Math.round(1000 / fs);//满帧的消耗时间为 16.67ms。 1000/16.67=60
-  
+
     lastFameTime = now; //记录当前开始时间为相对下次loop的上次执行时间
     frame++;//每次一帧加1
   
