@@ -1,0 +1,100 @@
+上报采用单独域名是否更好
+我们发现，成熟的网站数据上报的域名往往与业务域名并不相同。这样做的好处主要有两点：
+
+使用单独域名，可以防止对主业务服务器的压力，能够避免日志相关处理逻辑和数据在主业务服务器的堆积；
+另外，很多浏览器对同一个域名的请求量有并发数的限制，单独域名能够充分利用现代浏览器的并发设置
+
+
+独立域名的跨域问题
+对于单独的日志域名，肯定会涉及跨域问题。我们经常发现页面使用“构造空的 Image 对象的方式”进行数据上报。原因是请求图片并不涉及跨域的问题：
+
+let url = 'xxx'
+let img = new Image()
+img.src = url
+我们可以将数据进行序列化，作为 URL 参数传递：
+
+let url = 'xxx?data=' + JSON.stringify(data)
+let img = new Image()
+img.src = url
+
+何时上报数据
+页面加载性能数据可以在页面稳定后进行上报。
+
+一次上报就是一次访问，对于其他错误和异常数据的上报，假设我们的应用日志量很大，则有必要合并日志在统一时间，统一上报。那么什么情况下上报性能数据呢？一般合适的场景为：
+
+页面加载和重新刷新
+页面切换路由
+页面所在的 Tab 标签重新变得可见
+页面关闭
+
+
+单页应用上报
+如果切换路由是通过改变 hash 值来实现的，那么只需要监听 hashchange 事件，如果是通过 history API 来改变 URL，那么需要使用 pushState 和 replaceState 事件。当然一劳永逸的做法是进行 monkey patch，结合发布订阅模式，为相关事件的触发添加处理：
+
+
+const patchMethod = type => 
+    () => {
+       const result = history[type].apply(this, arguments) //这样调用history[type]会进入无限循环，应该换个名暂存history[type]再作这样的操作
+       const event = new Event(type)
+       event.arguments = arguments
+       window.dispatchEvent(event)
+       return result
+       }
+
+
+history.pushState = patchMethod('pushState')
+history.replaceState = patchMethod('replaceState')
+我们通过重写 history.pushState 和 history.replaceState 方法，添加并触发 pushState 和 replaceState 事件。这样一来 history.pushState 和 history.replaceState 事件触发时，可以添加订阅函数，进行上报：
+
+window.addEventListener('replaceState', e => {
+    // report...
+})
+window.addEventListener('pushState', e => {
+    // report...
+})
+
+
+如果是在页面离开时进行数据发送，那么在页面卸载期间是否能够安全地发送完数据是一个难题：因为页面跳转，进入下一个页面，就难以保证异步数据的发送了。如果使用同步的 AJAX：
+
+window.addEventListener('unload', logData, false);
+const logData = () => {
+    var client = new XMLHttpRequest()
+    client.open("POST", "/log", false) // 第三个参数表明是同步的 XHR
+    client.setRequestHeader("Content-Type", "text/plain;charset=UTF-8")
+    client.send(data)
+}
+又会对页面跳转流畅程度和用户体验造成影响。
+
+navigator.sendBeacon 就是天生来解决“页离开时的请求发送”问题的。它的几个特点决定了对应问题的解决方案：
+
+它的行为是异步的，也就是说请求的发送不会阻塞向下一个页面的跳转，因此可以保证跳转的流畅度；
+它在不受到极端“数据 size 和队列总数”的限制下，优先返回 true 以保证请求的发送成功。
+目前 Google Analytics 使用 navigator.sendBeacon 来上报数据，我们看到 Google Analytics 通过动态创建 img 标签，在 img.src 中拼接 URL 的方式发送请求，不存在跨域限制。如果 URL 太长，就会采用 sendBeacon 的方式发送请求，如果 sendBeacon 方法不兼容，则发送 AJAX post 同步请求。类似：
+
+const reportData = url => {
+    // ...
+    if (urlLength < 2083) {
+        imgReport(url, times)
+    } else if (navigator.sendBeacon) {
+        sendBeacon(url, times)
+    } else {
+        xmlLoadData(url, times)
+    }
+}
+
+最后，如果网页访问量很大，那么一个错误发送的信息就非常多，我们可以给上报设置一个采集率：
+ const reportData = url => {
+    // 只采集 30%
+    if (Math.random() < 0.3) {
+        send(data)
+    }
+}
+
+接口和智能化设计方面　
+
+我们可以考虑以下方面：
+
+识别周高峰和节假日，动态设置上报采样率；
+增强数据清洗能力，提高数据的可用性，对一些垃圾信息进行过滤；
+通过配置化，减少业务接入成本；
+如果用户一直触发错误，相同的错误内容会不停上报，这时可以考虑是否需要做一个短时间滤重。

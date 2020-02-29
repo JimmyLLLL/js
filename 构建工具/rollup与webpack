@@ -1,0 +1,49 @@
+Rollup 号称下一代打包方案，它的功能和特点非常突出：
+
+依赖解析，打包构建
+仅支持 ES Next 模块
+Tree shaking
+Rollup 凭借其清新且友好的配置，以及强大的功能横空出世，吸睛无数。
+
+建库使用 Rollup，其他场景使用 webpack。
+
+为什么这么说呢？还记得我们在前面提的 webpack 打包结果吗？从结果上看，webpack 方案会生成比较多的冗余代码，这对于业务代码来说没什么问题，能保证较强的程序健硕性和语法还原度，兼容性保障更有利。也许开发者会关心代码量多带来的冗余问题，但衡量其优缺点和开发效率性价比，webpack 始终是业务开发的首选；但对于库来说就不一样了，相同的脚本，使用 Rollup 产出，复杂的模块冗余会完全消失。Rollup 通过将代码顺序引入同一个文件来解决模块依赖问题，因此，Rollup 做拆包的话就会有问题，原因是模块完全透明了，而在复杂应用中我们往往需要进行拆包，在库的编写中很少用到这样的功能。
+
+当然，“库使用 Rollup，其他场景使用 webpack”——这不是一个绝对的原则。如果你需要代码拆分（Code Splitting），或者有很多静态资源需要处理，或者你构建的项目需要引入很多 CommonJS 规范的模块，再或者你需要拥有相对更大的社区支持，那么 webpack 是不错的选择。
+
+如果你的代码库基于 ES Next 模块，且希望自己写的代码能够被其他人直接使用，那么，你需要的打包工具可能就是 Rollup 。
+
+我们借用前面小节的代码，来看看经过 Rollup 编译之后的代码会成什么样子。
+
+
+main.js：
+
+import sayHello from './hello.js'
+console.log(sayHello('lucas'))
+hello.js：
+
+const sayHello = name => `hello ${name}`
+export default sayHello
+编译结果非常简单：
+
+const sayHello = name => `hello ${name}`
+console.log(sayHello('lucas'))
+这与 webpack 的打包产出形成了鲜明差异。这种打包方式，天然支持 tree shaking，我们改写上例，加入一个没有用到的 sayHi 函数：
+
+main.js：
+
+import { sayHello } from './hello.js'
+
+console.log( sayHello( 'lucas' ) )
+hello.js：
+
+export const sayHi = name => `hi ${name}`
+
+export const sayHello = name => `hello ${name}`
+打包结果：
+
+'use strict';
+
+const sayHello = name => `hello ${name}`;
+console.log( sayHello( 'lucas' ) );
+通过顺序引入依赖，非常简单、清晰，并且自动做到了 tree shaking

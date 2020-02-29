@@ -75,3 +75,8 @@ else {
 Microformats，翻译为微格式，是 HTML 标记某些实体的小模式，这些实体包括人、组织、事件、地点、博客、产品、评论、简历、食谱等。它们是在 HTML 中嵌套语义的简单协议，且能迅速地提供一套可被搜索引擎、聚合器等其他工具使用的 API。
 Microdata 属于 WHATWG（网页超文本应用技术工作小组：Web Hypertext Application Technology Working） HTML 规范，它并不是标准，但这是一个很典型的语义化发展和应用尝试。
 
+
+总结
+新的区块标签：section,article,nav,aside
+表单增强：日期、时间、搜索（修改type的类型实现）；表单验证；placeholder
+语义增强：header/footer; section/article; nav导航；aside 不重要的内容；em(emphasize)/strong增强; i(icon)制作图标

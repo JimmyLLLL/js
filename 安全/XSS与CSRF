@@ -63,6 +63,8 @@ if(/^https?:\/\/localhost/.test(referer)){
 Referer值会记录访问来源，有些用户认为侵犯自己隐私权，有些用户可能会开启浏览器防止跟踪功能，不提供Referer，导致正常用户请求被拒绝。 
 
 
+运用前端可读cookies，先重新输入用户密码，然后后端返回一个可读cookies，form要加上这个可读cookies
+
 
 总结：
 涉及敏感操作的请求改为POST请求

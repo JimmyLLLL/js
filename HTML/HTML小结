@@ -1,3 +1,83 @@
 innerText与textContent区别
 textContent兼容性差(IE9+)但是不一定触发重绘，性能好
 https://www.jianshu.com/p/13096ec76ad2
+
+1.如何理解HTML？
+HTML类似于一份word“文档”
+描述文档的“结构”
+有区块和大纲
+
+2.对WEB标准的理解？
+Web标准是由一系列标准组合而成。一个网页主要由三部分组成：结构层、表现层和行为层。
+对应的标准也分三方面：
+
+结构化标准语言主要包括XHTML和HTML以及XML，
+表现层标准语言主要包括CSS，
+行为标准主要包括对象模型，DOM、ECMAScript等
+
+
+结构层标准：
+标签的书写，需要开始和结束。单便签除外；
+特殊的 p和 h1—h6里面不要放块元素，li和div可以放很多。因为这两个标签，本身就有容器的属性
+内联里面要放内联，不要放块。（嵌套关系）
+结构与表现分离
+命名一定要规范
+
+表现层标准
+表现标准语言主要包括CSS（Cascading Style Sheets）层叠式样式表，通过CSS样式表，W3C创建CSS标准的目的是以CSS取代HTML表格式布局、帧和其他表现的语言，通过CSS样式可以是页面的结构标签更具美感。
+尽可能使用外部引入的方式，达到分离的目的
+CSS选择器，优先级
+代码简洁
+
+
+行为层标准
+行为是指页面和用户具有一定的交互，同时页面结构或者表现发生变化，标准主要包括对象模型（如W3C DOM）、ECMAScript并要求这三部分分离。
+DOM是Document Object Model文档对象模型的缩写。DOM解决了Netscaped的Javascript和Microsoft的Jscript之间的冲突，给予web设计师和开发者一个标准的方法，让他们来访问他们站点中的数据、脚本和表现层对像。
+ECMAScript是ECMA(EuropeanComputer Manufacturers Association)制定的标准脚本语言（JAVAScript）
+
+对于结构的要求
+1）标签字母要小写
+2）标签要闭合
+3）标签不允许随意嵌套
+
+
+1）尽量使用外链css样式表和js脚本。使结构、表现和行为分为三块，符合规范。同时提高页面渲染速度，提高用户的体验。
+2）样式尽量少用行间样式表，使结构与表现分离，标签的id和class等属性命名要做到见文知义，标签越少，加载越快，用户体验提高，代码维护简单，便于改版。
+3）不需要变动页面内容，便可提供打印版本而不需要复制内容，提高网站易用性。
+
+
+什么是前端语义化？
+ Note
+
+语义化就是是让机器可以读懂内容，web页面的解析是由搜索引擎来进行搜索，机器来解析。
+
+4.1 标签是有语义的
+h1~h6、thead、ul、ol等标签，初期的语义化标签：程序员利用HTML标签的id和class属性，进一步对HTML标签进行描述，如对页脚HTML标签添加如id="footer"或者class="footer"的属性（值）（使用有语义的对于需要声明的变量和class，id）
+
+4.2 HTML5的语义标签
+w3C采用了header/footer; section（章节、页眉、页脚）/article（内容区域）; nav导航；aside 不重要的内容；em(emphasize)/strong增强; i(icon)制作图标
+
+
+谈一下页面布局架构？
+CSS布局：table布局，float布局，flex布局（瀑布流布局），inline-block布局
+三大框架，页面架构
+
+6.HTML的版本问题？
+HTML4/4.0.1(SGML)(标签允许不结束)
+XHTML(XML)（标签必须结束，属性必须带引号，属性必须有值，标签属性必须有值）
+HTML5（类似于HTML4的写法）
+关键点：HTML是一种基本的WEB网页设计语言，XHTML是一个基于XML的置标语言
+
+块级元素block（方块形状，占据一整行）：div ul ol li dl dt dd h1 h2 h3 h4…p
+行内元素inline(一行中的某个位置)：a b span img input select strong（强调的语气）
+inline-block(行内，有宽高属性)：selection
+
+
+行内元素：a、b、span、img、input、strong、select、label、em、button、textarea 
+块级元素：div、ul、li、dl、dt、dd、p、h1-h6、blockquote 
+空元素:br、meta、hr、link、input、img
+
+HTML嵌套关系？
+块级元素可以包含行内元素
+块级元素不一定能包含块级元素(p，h系列标签不能包含div标签)
+行内元素“一般”不能包含块级元素（a包含div是可以的）

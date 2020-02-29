@@ -1,0 +1,65 @@
+顾名思义，职责链模式就是建立一个流程链条，一个请求从一端进入，并从一个职责根据需求，流转进入另一个对象，直到找到合适的处理程序。
+
+听上去似乎有点“中间件”的意思，我们来看一个简单的应用：账户付款时绑定一个基本帐户类，它连接了多种付款方式：paypal 支付、比特币支付，并根据不同付款方式的金额额度和付款额，选择第一个合适的账户进行支付逻辑：
+
+class Account {
+    next(account) {
+        this.successor = account
+    }
+
+    pay(amount) {
+        if (this.canPay(amount)) {
+            console.log(`Paid ${amount} using ${this.name}`)
+        } else if (this.successor) {
+            console.log(`Cannot pay using ${this.name}. Proceeding...`)
+            this.successor.pay(amount)
+        } else {
+            console.log('None of the accounts have enough balance')
+        }
+    }
+
+    canPay(amount) {
+        return this.balance >= amount
+    }
+}
+
+class Bank extends Account {
+    constructor(balance) {
+        super()
+        this.name = 'bank'
+        this.balance = balance
+    }
+}
+
+class Paypal extends Account {
+    constructor(balance) {
+        super()        
+        this.name = 'Paypal'
+        this.balance = balance
+    }
+}
+
+class Bitcoin extends Account {
+    constructor(balance) {
+        super()        
+        this.name = 'bitcoin'
+        this.balance = balance
+    }
+}
+在使用时，我们先给三个账户充钱：
+
+const bank = new Bank(100)          // Bank with balance 100
+const paypal = new Paypal(200)      // Paypal with balance 200
+const bitcoin = new Bitcoin(300)    // Bitcoin with balance 300
+并按顺序优先调用银行付款、PayPal 付款、比特币付款：
+
+bank.next(paypal)
+paypal.next(bitcoin)
+最终付款行为：
+
+bank.pay(250)
+输出：
+
+Cannot pay using bank. Proceeding...
+Cannot pay using Paypal. Proceeding...
+Paid 250 using bitcoin

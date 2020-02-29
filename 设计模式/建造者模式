@@ -1,0 +1,67 @@
+建造者模式在前端中的应用
+前面我们提到了建造者模式，这里再深入地进行了解。建造者的精髓在于“分步骤分情况构建一个复杂的对象”。比如我们想实现一个 pizza 类，用于生成 pizza 实例：
+
+class Pizza {
+    constructor(size, chesse = true, tomato = false, lettuce = false) {
+    }
+}
+构建一个 pizza 需要在初始化时传入需要的参数，如果这个 pizza 类变得复杂，比如需要声明是否添加 mushroom、oliver、poulet 等，那么参数就会非常失控：
+
+class Pizza {
+    constructor(size, mushroom = true, oliver= true, poulet = false, chesse = true, tomato = false, lettuce = false) {
+    }
+}
+使用建造者模式：
+
+class Pizza {
+    constructor(size) {
+        this.size = size
+    }
+
+    addMushroom() {
+        this.mushroom = true
+        return this
+    }
+
+    addOliver() {
+        this.oliver = true
+        return this
+    }
+
+    addPoulet() {
+        this.poulet = true
+        return this
+    }
+
+    addChesse() {
+        this.chesse = true
+        return this
+    }
+
+    addTomato() {
+        this.tomato = true
+        return this
+    }
+
+    addLettuce() {
+        this.lettuce = true
+        return this
+    }
+
+    build() {
+        return new Pizza(this)
+    }
+}
+这样一来，使用就会更加优雅：
+
+new Pizza(32)
+    .addOliver()
+    .addTomato()
+    .build()
+当然，你可以认为参数以对象的形式传入，就能解决参数过多以及参数顺序问题。可是往往构造一个对象并不只是参数的问题。比如构建一个复杂的 DOM 结构，而针对于此 jQuery 利用建造者模式简化了构建 DOM 的过程：
+
+我们可以通过多种方式构造 DOM ：
+
+$( "<input />" )
+      .attr({ "type": "text", "id":"sample"});
+      .appendTo("#container");

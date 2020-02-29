@@ -1,0 +1,75 @@
+事实上，在 webpack 中，loader 是魔法真正发生的阶段之一：Babel 将 ES Next 编译成 ES5，sass-loader 将 SCSS/Sass 编译成 CSS 等，都是由相关 loader 或者 plugin 完成的。因此，直观上理解，loader 就是接受源文件，对源文件进行处理，返回编译后文件
+我们看到一个 loader 秉承单一职责，完成最小单元的文件转换。当然，一个源文件可能需要经历多步转换才能正常使用，比如 Sass 文件先通过 sass-loader 输出 CSS，之后将内容交给 css-loader 处理，甚至 css-loader 输出的内容还需要交给 style-loader 处理，转换成通过脚本加载的 JavaScript 代码
+
+当我们调用多个 loader 串联去转换一个文件时，每个 loader 会链式地顺序执行。webpack 中，在同一文件存在多个匹配 loader 的情况下，遵循以下原则：
+
+loader 的执行顺序是和配置顺序相反的，即配置的最后一个 loader 最先执行，第一个 loader 最后执行。
+第一个执行的 loader 接收源文件内容作为参数，其他 loader 接收前一个执行的 loader 的返回值作为参数。最后执行的 loader 会返回最终结果。
+
+因此，在你开发一个 loader 时，请保持其职责的单一性，只需关心输入和输出。
+
+不难理解：loader 本质就是函数，其最简单的结构为：
+
+module.exports = function(source){
+     // some magic...
+     return content
+}
+
+
+const loaderUtils = require("loader-utils")
+module.exports = function(source) {
+    // 获取开发者配置的 options ，一般loader会有配置选择
+    const options = loaderUtils.getOptions(this)
+    // some magic...
+    return content
+}
+
+
+比如，我们想对 loader 处理过程中的错误进行捕获，或者又想导出 sourceMap 等信息，该如何做呢？
+
+这种情况需要用到 loader 中的 this.callback 进行内容的返回。this.callback 可以传入四个参数，分别是：
+
+error：Error | null，当 loader 出错时向外抛出一个 error
+content：String | Buffer，经过 loader 编译后需要导出的内容
+sourceMap：为方便调试生成的编译后内容的 source map
+ast：本次编译生成的 AST 静态语法树，之后执行的 loader 可以直接使用这个 AST，进而省去重复生成 AST 的过程
+这样，我们的 loader 代码变得更加复杂，同时也能够处理更多样的需求：
+
+module.exports = function(source) {
+    // 获取开发者配置的 options
+    const options = loaderUtils.getOptions(this)
+    // some magic...
+    // return content
+    this.callback(null, content)
+}
+
+当我们使用 this.callback 返回内容时，该 loader 必须返回 undefined，这样 webpack 就知道该 loader 返回的结果在 this.callback 中，而不是 return 中
+
+默认情况下，webpack 传给 loader 的内容源都是 UTF-8 格式编码的字符串。但请思考 file-loader 这个常用的 loader，它不是处理文本文件，而是处理二进制文件的，这种情况下，我们可以通过：source instanceof Buffer === true 来判断内容源类型：
+
+module.exports = function(source) {
+    source instanceof Buffer === true
+    return source
+}
+
+如果自定义的 loader 也会返回二进制文件，需要在文件中显式注明：
+
+module.exports.raw = true
+
+当然，还存在异步 loader 的情况，即对 source 的处理并不能同步完成，这时候使用简单的 async-await 即可：
+
+module.exports = async function(source) {
+    function timeout(delay) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(source)
+            }, delay)
+        })
+    }
+    const content = await timeout(1000)
+    this.callback(null, content)
+}
+
+实际上，对于我们熟悉的 less-loader，翻看其源码，就能发现它的核心是利用 less 这个库来解析 less 代码，less 会返回一个 promise，因此 less-loader 是异步的，其实现正是运用了 this.async() 来完成。
+
+到此，我们了解了 loader 的编写套路，更多细节内容，比如 loader 缓存开关、全程传参 pitch 等用法不再过多讨论，读者可以根据需要进行了解，也欢迎在课程评论区大家一起讨论沟通。

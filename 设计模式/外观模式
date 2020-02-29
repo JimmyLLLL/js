@@ -1,0 +1,14 @@
+外观模式在前端中的应用
+外观模式的精髓在于对接口进行二次封装，隐藏其内部的复杂度。这种设计在前端开发中也非常常见，比如跨浏览器兼容性的封装，比如事件：
+
+var addMyEvent = function( el,ev,fn ){
+  if( el.addEventListener ){//存在 DOM2 级方法，则使用并传入事件类型、事件处理程序函数和第3个参数 false（表示冒泡阶段）
+        el.addEventListener( ev,fn, false );
+  }else if(el.attachEvent){ // 为兼容 IE8 及更早浏览器，注意事件类型必须加上"on"前缀
+        el.attachEvent( "on" + ev, fn );
+  }else{
+       el["on" + ev] = fn;//其他方法都无效，默认采用 DOM0 级方法，使用方括号语法将属性名指定为事件处理程序
+    }
+};
+
+我们并不需要明白 module 内部实现，只需要关心其封装即可。

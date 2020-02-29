@@ -1,0 +1,128 @@
+自定义时间计算
+首屏时间的计算实现方式不尽相同，开发者可以根据自己的需求来确定首屏时间的计算方式。我列举几个典型的方案。
+
+window.performance.timing.navigationStart  // 等于前一个页面 unload 时间，如果没有前一个页面，则等于 fetchStart 时间
+fetchStart // 域名查询开始的时间
+
+对于网页高度小于屏幕的网站来说，统计首屏时间非常简单，只要在页面底部加上脚本，完成当前时间的打印即可，这个时间再通过与 window.performance.timing.navigationStart 时间做差，即得到首屏渲染耗时。
+
+但网页高度小于屏幕的站点毕竟是少数：对于网页高度大于一屏的页面来说，只要在估算接近于一屏幕的最后一个元素的位置后，插入计算脚本即可：
+
+var time = +new Date() - window.performance.timing.navigationStart
+显然上述方案是比较理想化的，我们很难通过自动化工具或者一段集中管理的代码进行统计。开发者直接在页面 DOM 中插入时间统计，不仅代码侵入性太强，而且成本很高
+
+同时，这样的计算方式其实并没有考虑首屏图片加载的情况，也就是说首屏图片未加载完的情况下，我们也认为加载已经完成
+
+如果要考虑首屏图片的加载，建议使用集中化脚本统计首屏时间的方法：使用定时器不断检测 img 节点，判断图片是否在首屏且加载完成，找到首屏加载最慢的图片加载完成的时间，从而计算出首屏时间。如果首屏有没有图片，就用 domready 时间
+
+const win = window
+const firstScreenHeight = win.screen.height
+let firstScreenImgs = []
+let isFindLastImg = false
+let allImgLoaded = false
+let collect = []
+
+const t = setInterval(() => {
+    let i, img
+    if (isFindLastImg) {
+        if (firstScreenImgs.length) {
+            for (i = 0; i < firstScreenImgs.length; i++) {
+                img = firstScreenImgs[i]
+                if (!img.complete) {
+                    allImgLoaded = false
+                    break
+                } else {
+                    allImgLoaded = true
+                }
+            }
+        } else {
+            allImgLoaded = true
+        }
+        if (allImgLoaded) {
+            collect.push({
+                firstScreenLoaded: startTime - Date.now()
+            })
+            clearInterval(t)
+        }
+    } else {
+        var imgs = body.querySelector('img')
+        for (i = 0; i < imgs.length; i++) {
+            img = imgs[i]
+            let imgOffsetTop = getOffsetTop(img)
+            if (imgOffsetTop > firstScreenHeight) {
+                isFindLastImg = true
+                break
+            } else if (imgOffsetTop <= firstScreenHeight 
+            && !img.hasPushed) {
+                img.hasPushed = 1
+                firstScreenImgs.push(img)
+            }
+        }
+    }
+}, 0)
+
+const doc = document
+doc.addEventListener('DOMContentLoaded', () => {
+    const imgs = body.querySelector('img')
+    if (!imgs.length) {
+        isFindLastImg = true
+    }
+})
+
+win.addEventListener('load', () => {
+    allImgLoaded = true
+    isFindLastImg = true
+    if (t) {
+        clearInterval(t)
+    }
+})
+
+
+另外一种方式是不使用定时器，且默认影响首屏时间的主要因素是图片的加载，如果没有图片，纯粹渲染文字是很快的，因此，可以通过统计首屏内图片的加载时间获取首屏渲染完成的时间。
+
+(function logFirstScreen() {
+    let images = document.getElementsByTagName('img')
+    let iLen = images.length
+    let curMax = 0
+    let inScreenLen = 0
+
+    // 图片的加载回调
+    function imageBack() {
+        this.removeEventListener
+        && this.removeEventListener('load', imageBack, !1)
+        if (++curMax === inScreenLen) {
+            // 所有在首屏的图片均已加载完成的话，发送日志
+            log()
+        }   
+    } 
+    // 对于所有的位于指定区域的图片，绑定回调事件
+    for (var s = 0; s < iLen; s++) {
+        var img = images[s]
+        var offset = {
+            top: 0
+        }
+        var curImg = img
+        while (curImg.offsetParent) {
+            offset.top += curImg.offsetTop
+            curImg = curImg.offsetParent
+        }
+        // 判断图片在不在首屏
+        if (document.documentElement.clientHeight < offset.top) {
+            continue
+        }
+        // 图片还没有加载完成的话
+        if (!img.complete) {
+            inScreenLen++
+            img.addEventListener('load', imageBack, !1)
+        }
+    }
+    // 如果首屏没有图片的话，直接发送日志
+    if (inScreenLen === 0) {
+        log()
+    }
+    // 发送日志进行统计
+    function log () {
+        window.logInfo.firstScreen = +new Date() - window.performance.timing.navigationStart
+        console.log('首屏时间：', +new Date() - window.performance.timing.navigationStart)
+    }
+})()

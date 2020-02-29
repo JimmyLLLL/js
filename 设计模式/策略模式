@@ -1,0 +1,23 @@
+策略模式能够让开发者基于具体场景，来切换不同的算法或者策略。本身这个模式比较简单，但是有一个比较有意思的应用：V8 引擎在实现排序时，根据排序长度的不同，动态合理选用排序策略，达到尽可能的性能优化，例如代码：
+
+const bubbleSort = target => {
+    console.log('Sorting with bubble sort')
+    // ...
+    // ...
+    return target
+}
+
+const quickSort = target => {
+    console.log('Sorting with quick sort')
+    // ...
+    // ...
+    return target
+}
+
+const sorter = target => {
+    if(target.length > 5){
+        return quickSort(target)
+    } else {
+        return bubbleSort(target)
+    }
+}

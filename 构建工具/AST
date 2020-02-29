@@ -1,0 +1,45 @@
+抽象语法树（Abstract Syntax Tree，简称 AST），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构和表达。
+
+AST 并不会被计算机所识别，更不会被运行，它是对编程语言的一种表达，为代码分析提供了基础。
+
+webpack 将文件转换成 AST 的目的就是方便开发者提取模块文件中的关键信息。 这样一来，我们就可以“知晓开发者到底写了什么东西”，也就可以根据这些“写出的东西”，实现分析和扩展。在代码层面，我们可以把 AST 理解为一个 object：
+
+var ast = 'AST demo'
+这样的语句转换为 AST 就是：
+
+{
+  "type": "Program",
+  "start": 0,
+  "end": 20,
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "start": 0,
+      "end": 20,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "start": 4,
+          "end": 20,
+          "id": {
+            "type": "Identifier",
+            "start": 4,
+            "end": 7,
+            "name": "ast"
+          },
+          "init": {
+            "type": "Literal",
+            "start": 10,
+            "end": 20,
+            "value": "AST demo",
+            "raw": "'AST demo'"
+          }
+        }
+      ],
+      "kind": "var"
+    }
+  ],
+  "sourceType": "module"
+}
+从中我们可以看出，AST 结果精确地表明了这是一条变量声明语句，语句起始于哪里，赋值结果是什么等信息都被表达出来。
+设想一下，有了这样的语法树，开发者便可以针对源文件进行一些“分析、加工或转换”操作。

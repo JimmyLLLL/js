@@ -1,0 +1,13 @@
+装饰者模式在前端中的应用
+装饰者模式如同代理模式一样，如今 JavaScript 也已经原生能够很好地进行支持了。简单来说就是在不改变原对象的基础上，对其对象进行包装和拓展，使原对象能够应对更加复杂的需求。
+这就有一点像高阶函数，因此在前端开发中非常多见：
+
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
+class App extends Component {
+ render() {
+  //...
+ }
+}
+//下面这一块高阶函数
+export default connect(mapStateToProps,actionCreators)(App);

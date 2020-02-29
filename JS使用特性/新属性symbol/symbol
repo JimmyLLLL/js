@@ -1,0 +1,22 @@
+var race = {
+  protoss: Symbol(),
+  terran: Symbol(),
+  zerg: Symbol()
+}
+
+race.protoss !== race.terran // true
+race.protoss !== race.zerg // true
+你也可以给每个 Symbol 起一个名字：
+
+var race = {
+  protoss: Symbol('protoss'),
+  terran: Symbol('terran'),
+  zerg: Symbol('zerg')
+}
+不过这个名字跟 Symbol 的值并没有关系，你可以认为这个名字就是个注释。如下代码可以证明 Symbol 的名字与值无关：
+
+var a1 = Symbol('a')
+var a2 = Symbol('a')
+a1 !== a2 // true
+
+Symbol 生成一个全局唯一的值。

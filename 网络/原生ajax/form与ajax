@@ -1,0 +1,4 @@
+使用ajax方式来提交数据可以不使用form标签吗？
+form标签可以使用submit, reset
+使用form可以直接一次性获取所有的form窗体的数据属性
+form可以较好地实现表单验证等功能

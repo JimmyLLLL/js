@@ -1,0 +1,89 @@
+首先我们要清楚当前插件要解决什么问题，根据问题，找到相应的钩子事件，在相关事件中进行操作，改变输出结果。这就需要清楚开发中都有哪些钩子了，下面列举一些常用的，完整内容可以在官网找到：Compiler 暴露的所有事件钩子。
+
+我们知道 compiler 对象暴露了和 webpack 整个生命周期相关的钩子，通过如下的方式访问：
+
+//基本写法
+compiler.hooks.someHook.tap(...)
+例如，如果希望 webpack 在读取 entry 配置完后就执行某项工作，我们可以：
+
+compiler.hooks.entryOption.tap(...)
+因为名字为 entryOption 的 SyncBailHook 类型 hook，就表明了入口配置信息执行完毕的事件，在相关 tap 函数中我们可以在这个时间节点插入操作。
+
+又如，如果希望在生成的资源输出之前执行某个功能，我们可以：
+
+compiler.hooks.emit.tap(...)
+因为名字为 emit 的 AsyncSeriesHook 类型 hook，就表明了资源输出前的时间节点
+
+
+一个自定义 webpack plugin 的骨架结构就是一个带有 apply 方法的 class（用 prototype 实现同理 CustomPlugin.prototype.apply = function () {...}）：
+
+class CustomPlugin {
+    constructor(options) {
+        this.options = options
+    }
+    apply(compiler) {
+        // 相关钩子注册回调
+        compiler.hooks.someHook.tap('CustomPlugin', () => {
+            // magic here...
+        })
+
+        // 打印出此时 compiler 暴露的钩子
+        for(var hook of Object.keys(compiler.hooks)){
+            console.log(hook)
+        }
+    }
+}
+
+module.exports = customPlugin
+
+
+除了 compiler 暴露了与 webpack 整体构建生命周期相关的钩子以外，compilation 也暴露了与模块和依赖有关的粒度更小的钩子，读者可以参考：compilation 暴露的所有事件钩子，找到合适的时机插入自定义行为。
+
+其实 compilation 是 compiler 生命周期中的一个步骤，使用 compilation 相关钩子的通用写法为：
+
+class CustomPlugin {
+    constructor(options) {
+        this.options = options
+    }
+    apply(compiler) {
+        compiler.hooks.compilation.tap('CustomPlugin', function(compilation, callback) {
+            compilation.hooks.someOtherHook.tap('SomePlugin',function() {
+                // some magic here
+            })
+        })
+    }
+}
+
+module.exports = customPlugin
+
+
+最终，我们可以总结一下 webpack 插件的套路。
+
+定义一个 JavaScript class 函数，或在函数原型（prototype）中定义一个以 compiler 对象为参数的 apply 方法。
+apply 函数中通过 compiler 插入指定的事件钩子，在钩子回调中拿到 compilation 对象。
+使用 compilation 操纵修改 webapack 打包内容。
+当然，plugin 也存在异步的情况，一些事件钩子是异步的。相应地，我们可以使用 tapAsync 和 tapPromise 方法来处理：
+
+class CustomAsyncPlugin {
+    constructor(options) {
+        this.options = options
+    }
+    apply(compiler) {
+        compiler.hooks.emit.tapAsync('CustomAsyncPlugin', function(compilation, callback) {
+            setTimeout(() => {
+                callback()
+            }, 1000)
+        })
+
+        compiler.hooks.emit.tapPromise('CustomAsyncPlugin', function(compilation, callback) {
+            return asyncFun().then(() => {
+                //...
+            })
+        })
+    }
+}
+
+if (compiler.options.mode !== 'development') return
+在 entryOption hook 中，获取开发者配置的 entry 并通过 adjustEntry 方法获取正确的入口模块，该方法支持 entry 配置为 array 和 object 两种形式。在 afterResolvers hook 中，判断开发者是否开启 devServer，并对相关中间件进行调用 app.use(errorOverlayMiddleware())。
+
+实际生产环境当中，webpack pulgin 生态丰富多样，一般已有插件就可以满足大部分开发需求。如果团队结合自身业务需求，自主编写 webpack plugin，进而反哺生态，非常值得鼓励。

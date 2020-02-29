@@ -1,0 +1,85 @@
+代理模式在前端中的应用
+代理模式大家应该都不陌生，ES next 提供的 Proxy 让我们实现代理模式变得更加容易。关于 Proxy 的使用这些基础内容这里不过多赘述，直接来看一些代理模式的应用场景。
+
+我们对函数进行代理，对函数的返回结果进行缓存。在函数执行时，优先使用缓存值，否则返回执行计算值：
+
+const getCacheProxy = (fn, cache = new Map()) => 
+  new Proxy(fn, {
+    apply(target, context, args) {
+      const argsString = args.join(' ')
+      if (cache.has(argsString)) {
+        return cache.get(argsString)
+      }
+      const result = fn(...args)
+      cache.set(argsString, result)
+
+      return result
+    }
+  })
+另外一个类似的实现：
+
+const createThrottleProxy = (fn, timer) => {
+  let last = Date.now() - timer
+  return new Proxy(fn, {
+    apply(target, context, args) {
+      if (Date.now() - last >= rate) {
+        fn(args)
+        last = Date.now()
+      }
+    }
+  })
+};
+这些内容在前面的课程都有渗透，相信读者已经不难理解了。我们再来看 jQuery 当中的例子：
+
+$( "button" ).on( "click", function () {
+  // Within this function, "this" refers to the element that was clicked
+  $( this ).addClass( "active" );
+});
+通过 $( this ) 可以获取到当前触发事件的元素，但是：
+
+$( "button" ).on( "click", function () {
+  setTimeout(function () {
+    // "this" doesn't refer to our element!
+    $( this ).addClass( "active" );
+  });
+});
+但是这里的 $( this ) 不再是预期之中的结果。为此，jQuery 提供了 .proxy() 方法，这是典型的代理模式体现。
+
+$( "button" ).on( "click", function () {
+
+    setTimeout( $.proxy( function () {
+        // "this" now refers to our element as we wanted
+        $( this ).addClass( "active" );
+    }, this), 500);
+
+    // the last "this" we're passing tells $.proxy() that our DOM element
+    // is the value we want "this" to refer to.
+});
+来看一下 proxy 的实现：
+
+// Bind a function to a context, optionally partially applying any
+// arguments.
+proxy: function( fn, context ) {
+  if ( typeof context === "string" ) {
+    var tmp = fn[ context ];
+    context = fn;
+    fn = tmp;
+  }
+
+  // Quick check to determine if target is callable, in the spec
+  // this throws a TypeError, but we will just return undefined.
+  if ( !jQuery.isFunction( fn ) ) {
+    return undefined;
+  }
+
+  // Simulated bind
+  var args = slice.call( arguments, 2 ),
+    proxy = function() {
+      return fn.apply( context, args.concat( slice.call( arguments ) ) );
+    };
+
+  // Set the guid of unique handler to the same of original handler, so it can be removed
+  proxy.guid = fn.guid = fn.guid || proxy.guid || jQuery.guid++;
+
+  return proxy;
+}

@@ -1,0 +1,19 @@
+class jQuery {
+    constructor(selector) {
+        super(selector)
+    }
+    //  ....
+}
+
+window.$ = function(selector) {
+    return new jQuery(selector)
+}
+这样的代码非常明显，我们需要构建一个 jQuery 实例时，只需要：
+
+$('selector')
+因为 $ 已经被挂载在 window 上，而 $ 作为一个函数，它直接返回了 new jQuery(selector)，开发者不需要再麻烦地使用 new $('selector') 方式。
+
+除了 jQuery 以外，React 开发者常用的 React.createElement 也是工厂模式的体现：
+
+React.createElement('span', null, 'Factory Pattern!'),
+只要具有组件化思想的类库或者框架，无一例外都会使用工厂模式去创建组件实例，除了提到的 React、jQuery（jQuery UI） 以外，Vue，甚至是更古老的 ExtJS 都不例外。
