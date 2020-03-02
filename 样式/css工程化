@@ -1,0 +1,45 @@
+如何解决CSS的模块化问题？
+使用Less，Sass等CSS预处理器
+使用PostCSS插件（postcss-import/precss）
+使用webpack处理CSS（css-loader + style-loader）
+
+PostCSS是什么？
+PostCSS是一个平台，具体要取决于这个平台上面的插件可以做什么
+常用的插件如下
+ //  1. 可以添加属性前缀，适应所有的浏览器
+     const autoprefixer = require('autoprefixer');
+     // 2. 将所有的import 导入进来的模块全部合并为一个文件
+     // const atImport = require('postcss-import');
+     // 3.  实现代码的压缩优化
+     // const cssnano = require('postcss-cssnano');
+     // 4. cssnext提前使用CSS的高级语法
+     // const cssnext = require('postcss-cssnext');
+     // 5. precss 类似于sass的语法处理
+     // const precss = require('precss')
+
+import实现模块的合并（模块分开，提前合并）
+CSS语法检查，兼容性检查
+压缩文件
+
+
+CSS modules是什么？如何使用?
+解决类名冲突的问题
+使用PostCSS或者Webpack等构建工具进行编译
+在HTML模板中使用编译过程产生的类名（对象.类名的方式来获取）
+
+
+为什么使用JS来引用，加载CSS？
+JS作为入口，管理资源具有天然优势（HTML，CSS本身是无法管理模块和资源的）
+将组件的结果、样式、行为封装到一起，增强组件内聚（减少代码耦合）
+可以做更多的处理（webpack，使用CSS Modules 解决了命名的冲突问题）
+
+PostCSS的实现原理说一下？
+PostCSS是一个通过JS插件转换样式表的工具，它本身并不是一门新的CSS语言，
+而是一个平台或者是生态心态，提供插件扩展服务即JS API，开发者可以根据这些接口，
+定制开发插件， 目前比较流行的插件工具如：Autoprefixer 、Stylelint 、CSSnano。
+
+解析步骤
+将CSS解析成抽象语法树(AST树)
+将AST树”传递”给任意数量的插件处理
+将处理完毕的AST树重新转换成字符串
+Source string → Tokenizer → Parser → AST → Processor → Stringifier

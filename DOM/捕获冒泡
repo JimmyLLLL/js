@@ -1,0 +1,29 @@
+<div id="s1">s1
+    <div id="s2">s2</div>
+</div>
+<script>
+s1.addEventListener("click",function(e){
+        console.log("s1 冒泡事件");         
+},false);
+s2.addEventListener("click",function(e){
+        console.log("s2 冒泡事件");
+},false);
+        
+s1.addEventListener("click",function(e){
+        console.log("s1 捕获事件");
+},true);
+        
+s2.addEventListener("click",function(e){
+        console.log("s2 捕获事件");
+},true);
+</script>
+
+
+这里大体分析下执行结果
+点击s2，click事件从document->html->body->s1->s2(捕获前进)
+这里在s1上发现了捕获注册事件，则输出"s1 捕获事件"
+到达s2，已经到达目的节点，
+s2上注册了冒泡和捕获事件，先注册的冒泡后注册的捕获，则先执行冒泡，输出"s2 冒泡事件"
+再在s2上执行后注册的事件，即捕获事件，输出"s2 捕获事件"
+下面进入冒泡阶段，按照s2->s1->body->html->documen(冒泡前进)
+在s1上发现了冒泡事件，则输出"s1 冒泡事件"

@@ -1,72 +1,87 @@
-fatigue adj 疲劳的 fatigue adj 疲劳的
-trampoline n 蹦床 trampoline n 蹦床
-accumulator n 累加器，蓄电池 accumulator n 累加器、蓄电池
-sensation n 感觉，感动 sensation n 感觉，感动
-raster n 光栅 raster n 光栅
-vertex n 顶点 vertex n 顶点
-mode n 众数 mode n 众数
-omitted adj 省略的、遗漏的 omitted adj 省略的
-optionally adj 随意的、随机的 optionally adj 随意的、随机的
-align v 校准、调整 align v 校准、调衡
-ongoing adj 仍在进行的 ongoing adj 仍在进行的
-kit n 成套工具、用具包 kit n 成套工具、用具包
-systematic adj 成体系的 systematic adj 成体系的
-dine v 吃饭 dine v 吃饭
-commend v 称赞、表扬 commend v 称赞、表扬
-muse v 沉思 muse v 沉思
-brood v 抑郁地沉思 brood 抑郁地沉思
-meditate v 沉思 meditate v 沉思
-hush n 沉默 hush n 沉默
-repeal v 撤销 repeal v 撤销
-lathe n 车床 lathe n 车床
-row n 吵嚷、吵架 row n 吵嚷、吵架
-mock v 嘲弄 mock v 嘲弄
-supersonic adj 超音的 supersonic adj 超音的
-ultrasonic adj 超音的 ultrasonic adj 超音的
-reign n 朝代 reign n 朝代
-surpass v 超过 surpass v 超过
-waggon n 敞篷车厢 waggon n 敞篷车厢
-haunt v 常去、经常出没 haunt v 常去、经常出没
-shovel n 铲 shovel n 铲
-toad n 蟾蜍 toad n 蟾蜍
-errand n 差使，差事 errand n 差使，差事
-ascertain v 查明 ascertain v 查明
-groove n 槽 groove n 槽
-tactics n 策略 tactics n 策略
-manipulate v 操作 manipulate v 操作
-hatch v 舱盖 hatch v 舱盖
-spectator n 参观者 spectator n 参观者
-parameter n 参数 parameter n 参数
-substance n 财产、内容 substance n 财产、内容
-rule n 裁决，裁定 rule n 裁决、裁定
-friction n 擦热皮肤 friction n 擦热皮肤
-sermon n 讲道、说教 sermon n 讲道、说教
-absent adj 不在意的 absent adj 不在意的
-awkward adj 不雅观的 awkward adj 不雅观的
-wretched adj 不幸的 wretched adj 不幸的
-stuffy adj 不透气的 stuffy adj 不透气的
-irrespective adj 不考虑的 irrespective adj 不考虑的
-makeup n 组织 makeup n 组织
-optimum n 最适条件
-outeintegral adj 组成的
-grunt v 用作呼噜声
-abide v 遵守
-resultant adj 作为结果而发生的
-lease n 租约
-headquarters n 总店
-executive n 总经理
-main n 总管道、总线
-overall adj 综合的 n 工作服
-conceit n 自负
-ultraviolet adj 紫外线
-descendant n 子孙
-endow v 资助、授予
-datum n 资料、数据
-bourgeois adj 资产阶级的、平庸的
-woodpecker n 啄木鸟
-superb adj 壮丽的
-ornament n 装饰物
-mount v 装配、固定 n 支架
+const ES = {}
+const fatigue = '疲劳的'
+ES.fatigue = 'She was worn down with fatigue.'
+const trampoline = '蹦床'
+ES.trampoline = 'Imagine a bowling ball in the middle of a trampoline'
+const accumulator = '累加器'
+ES.accumulator = 'This moves the carry into bit position of the accumulator'
+const sensation = '感觉'
+ES.sensation = 'a sensation of extreme giddiness(眩晕)'
+const raster = '光栅'
+ES.raster = 'To display a raster image'
+const vertex = '顶点'
+ES.vertex = 'Vertex a is the initial vertex and b is the terminal vertext'
+const mode = '众数'
+ES.mode = 'The mode is that value that is repeated most often in the data set'
+const omitted = '省略的'
+ES.omitted = 'You have omitted my name from your list'
+const optionally = '随机的'
+ES.optionally = 'Measuring value can be set up optionally in measurement'
+const align = '校准'
+const ongoing = '仍在进行的'
+const kit = '成套工具'
+const systematic = '成体系的'
+const dine = '吃法'
+const commend = '称赞'
+const muse = '沉思'
+const brood = '抑郁地沉思'
+const meditate = '沉思'
+const hush = '沉默'
+const repeal = '撤销'
+const lathe = '机床'
+const row = '吵嚷'
+const mock = '嘲弄'
+const supersonic = '超音速的'
+const ultrasonic = '超音速的'
+const reign = '朝代'
+const surpass = '超过'
+const waggon = '敞篷车厢'
+const haunt = '常去'
+const shovel = '铲子'
+const toad = '蟾蜍'
+const errand = '差使'
+const ascertain = '查明'
+const groove = '槽'
+const tactics = '策略'
+const manipulate = '操作'
+const hatch = '舱盖'
+const parameter = '参数'
+ES.parameter = 'We call parameter 4 is a dynamic(动力) parameter'
+const spectator = '参观者'
+ES.spectator = 'The three spectators seemed quite stupefied(目瞪口呆)'
+const substance = '财产'
+ES.substance = 'This is not a substance that can be played about with anybody'
+const rule = '裁决'
+ES.rule = 'Mr. smith challenged chairmans ruling'
+const friction = '擦热皮肤'
+const sermon = '说教'
+const absent = '不在意的'
+const awkward = '不雅观的'
+const wretched = '不幸的'
+const stuffy = '不透气的'
+const irrespective = '不考虑的'
+const makeup = '组织'
+const optimum = '最适条件'
+const outeintegral = '组成的'
+const grunt = '用作呼噜声'
+const abide = '遵守'
+const resultant = '作为结果而发生的'
+const lease = '续约'
+const headquarters = '总店'
+const executive = '总经理'
+const main = '总线'
+const overall = '综合的'
+const conceit = '自负'
+const ultraviolet = '紫外线'
+const descendant = '子孙'
+const endow = '资助'
+const datum = '资料'
+const bourgeois = '资产阶级的'
+const woodpecker ='啄米鸟'
+const superb = '壮丽的'
+const ornament = '装饰物'
+const mount = '装配'
+
 torque n 扭矩
 workshop n 专题讨论会
 clutch v 抓住、掌握

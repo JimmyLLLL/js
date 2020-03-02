@@ -97,3 +97,6 @@ var h3 = element3.clientHeight
 requestAnimationFrame(() => {
     element3.style.height = (h3 * 2) + 'px'
 })
+
+懒加载的实现：当js监听到该图片元素进入可视窗口时，即将自定义属性中的地址存储到src属性中
+预加载的实现：提前加载图片，当用户需要查看时可直接从本地缓存中渲染
