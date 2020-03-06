@@ -136,18 +136,28 @@ const principally = '主要'
 ES.principally = 'Weymouth is principally a holiday resort'
 const stalk = '主茎'
 ES.stalk = 'Its no better than a hollow(中空的) stalk'
-preside v 主持
-axial adj 轴的
-ambient adj 周围的
-get rid of 摒弃
-traverse v 遍历
-puppeteer n 操作木偶的人
-embed v 嵌入
-helmet n 盔甲、头盔
-stone n 果核、硬核
-slap v 拍 n 巴掌
-boiler n 锅炉
-provision n 规定、条款
+const preside =  '主持'
+ES.preside  = 'He presided at the rally（集会）'
+const axial = '轴的'
+ES.axial = 'Angular momentum(动量) is an axial vector（矢量） quantity'
+const ambient = '周围的'
+ES.ambient = 'Ambient noise may come from any direction '
+//get rid of 摒弃
+//The first is to get rid of excess poundage .
+const traverse = '遍历'
+ES.traverse = 'I had to traverse the rest of the way .'
+const puppeteer = '操作木偶的人'
+ES.puppeteer = 'Puppeteer puppet maker'
+const embed = '嵌入'
+ES.embed = 'A shell(炮弹) splinter（碎片） embedded itself in the wall '
+const helmet = '盔甲、头盔'
+ES.helmet = 'Ive got to have my helmet'
+const slap = '巴掌'
+ES.slap = 'Charlotte was still smarting（剧烈疼痛） from the slap'
+const boiler = '锅炉'
+ES.boiler = 'He was injured as the result of a boiler explosion'
+const provision = '规定、条款'
+ES.provision = 'The repayment provisions are generous（很宽松）'
 dispute v 辩论
 roller n 滚柱、滚筒
 spacious adj 广阔的、广大的

@@ -1,0 +1,40 @@
+ES5/ES6 的继承除了写法以外还有什么区别？
+
+先看ES5的继承（原型链继承）
+function a() {
+  this.name = 'a';
+}
+a.prototype.getName = function getName() {
+  return this.name
+}
+function b() {}
+b.prototype = new a();
+console.log(b.prototype.__proto__ === a.prototype); // true
+console.log(b.__proto__ === a); // false
+console.log(b.__proto__); // [Function]
+
+ES6继承
+class A {
+  constructor(a) {
+    this.name = a;
+  }
+  getName() {
+    return this.name;
+  }
+}
+
+class B extends A{
+  constructor() {
+    super();
+  }
+}
+
+console.log(B.prototype.__proto__ === A.prototype); // true
+console.log(B.__proto__ === A); // true
+console.log(B.__proto__); // [Function: A]
+
+
+子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。如果不调用super方法，子类就得不到this对象。
+
+ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this
+
