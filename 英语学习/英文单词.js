@@ -158,58 +158,109 @@ const boiler = '锅炉'
 ES.boiler = 'He was injured as the result of a boiler explosion'
 const provision = '规定、条款'
 ES.provision = 'The repayment provisions are generous（很宽松）'
-dispute v 辩论
-roller n 滚柱、滚筒
-spacious adj 广阔的、广大的
-radial adj 光线的、放射的
-amplitude n 广大、充足、振幅
-photoelectric adj 光电的
-optical adj 光的，光学的
-blast n 管乐器的声音
-shrub n 灌木从
-irrigation n 灌溉
-coffin n 棺材
-inertia n 惯性
-bureaucracy n 官僚主义
-obstinate adj 固执的
-inherent adj 固有的，生来的
-fixture n 固定、定期存款
-pluck vt 鼓起（勇气）
-agitation n 鼓动
-skeleton n骨骼
-thigh n 大腿
-cereal n 谷类
-tribute n 供物
-impartial adj 公正的
-vault n 地下室
-duke n 君主
-consolidate v 巩固
-mercury n 汞
-convention n 公约
-implement n 工具
-earnings n 工资
-impart v 给予，传递
-dove n 鸽子
-insulator n 隔离者
-plateau n 高原
-tower v 高耸
-elevation n 高度
-lofty adj 高耸的
-wither v 枯萎
-parade v 夸耀
-fastener n 纽扣、扣件
-clasp v 扣住
-stammer v 口吃
-spatial adj 空间的
-shady adj 可疑的
-questionable adj 可疑的
-pneumatic adj 空气的
-aerial adj 空气的
-gnaw v 啃
-peacook n 孔雀
-longing n 渴望 adj 显示出渴望的
-formidable adj 可怕的
-dreadful adj 可怕的
+const dispute = '辩论、争端'
+ES.dispute = 'The dispute was settled by mediation'
+const roller = '滚柱、滚筒'
+ES.roller = 'You can rent roller skates at the skating arena'
+const spacious = '广阔的、广大的'
+ES.spacious = 'The room is spacious and bright'
+const radial = '光线的、放射的、径向'
+ES.radial = 'The radial（径向） displacement（位移） must be accompanied by a hoop（圆环） force（力）'
+const amplitude  =  '广大、充足、振幅'
+ES.amplitude = 'Noise immunity(免疫) is the maximum amplitude of noise'
+const photoelectric = '光电的'
+ES.photoelectric = 'Photoelectric work offers the widest scope'
+const optical = '光的，光学的'
+ES.optical = 'A kaleidoscope（万花筒）is an optical toy'
+const blast = '管乐器的声音、哨子'
+ES.blast = 'The note taker blows a piercing(刺耳的) blast'
+const shrub = '灌木从'
+ES.shrub = 'The flowering shrubs were a scarlet flame(火焰、光辉)'
+const irrigation = '灌溉'
+ES.irrigation = 'The terrace（梯田） channels are convenient for irrigation'
+const coffin = '棺材'
+ES.coffin = 'Peter could see the coffin amid（在...之中） the smoke'
+const inertia = '惯性'
+ES.inertia = 'Inertia carried the car to the pavement'
+const bureaucracy = '官僚主义'
+ES.bureaucracy = 'The masses(群众) would not go for bureaucracy'
+const obstinate = '固执的'
+ES.obstinate = 'The trader（商人） was obstinate in the negotiation'
+const inherent = '固有的，生来的'
+ES.inherent = 'Weight is an inherent quality of matter'
+const fixture = '设备' 
+ES.fixture = 'Lighting fixture must be installed at once(立刻、马上)'
+const pluck = '鼓起（勇气）'
+ES.pluck = 'He can not pluck up the courage to leave home'
+const agitation = '骚动'
+ES.agitation = 'There should not be any agitation in the army'
+const skeleton = '骨骼、基本'
+ES.skeleton = 'You should write the skeleton equation'
+const thigh = '大腿、腿力'
+ES.thigh = 'The development of the thighs counts heavily(很关键)'
+const cereal = '谷类'
+ES.cereal = 'Are you going to have cereal for breakfast again'
+const tribute = '颂词'
+ES.tribute = 'He received an honorary degree and numerous tributes'
+const impartial = '公正的'
+ES.impartial = 'He must be able to stay impartial at all times'
+const vault = '地下室'
+ES.vault = 'This underground vault is theftproof（防盗的）'
+const duke = '君主、公爵'
+ES.duke = 'The duke is holding a press conference（记者招待会）'
+const consolidate = '巩固'
+ES.consolidate = 'Reading and writing may consolidate our learning'
+const mercury = '水银'
+ES.mercury = 'Mercury has a much greater density（密度）than water'
+const convention = '公约、习俗'
+ES.convention = 'He （sets at naught）（轻视） every convention of society .'
+const implement = '工具'
+ES.implement = 'They ordered quantities of farm implements'
+const earnings = '工资'
+ES.earnings = 'We get export earnings from goods and services '
+const impart = '给予，传递'
+ES.impart = 'The uniform imparts a dignified（尊严） appearance to him '
+const dove = '鸽子'
+ES.dove = 'The dove is a figure of peace'
+const insulator = '绝缘体'
+ES.insulator = 'There is no sharp（明显的） line separating conductors from insulators ' 
+const plateau = '高原'
+ES.plateau = 'The qinghai-xizang plateau has long been known as the roof of the world'
+const tower = '高耸'
+ES.tower = 'His big body towers over the others '
+const elevation = '高度、高地'
+ES.elevation = 'Before me and on either hand at this elevation a vast extent of country was disclosed（一览无余）'
+const lofty = '崇高的'
+ES.lofty = 'To realize communism is our lofty ideal'
+const wither = '枯萎'
+ES.wither = 'The summer heat withered up certain plants '
+const parade = '队伍'
+ES.parade = 'The parade stalked along the highway' 
+const fastener = '拉链'
+ES.fastener = 'A manufacturer has an automatic machine that produces fasteners '
+const clasp = '扣住'
+ES.clasp = 'His gloved hands were clasped behind him'
+const stammer = '口吃'
+ES.stammer = 'I stammered yes, that was it'
+const spatial = '空间的'
+ES.spatial = 'Fluctuations（波动） are spatial and temporal in character'
+const shady = '阴凉的'
+ES.shady = 'We must look for a shady place'
+const questionable = '可疑的'
+ES.questionable = 'There are still a few questionable points in the case'
+const pneumatic = '气动的'
+ES.pneumatic = 'Pneumatic signals will travel only at sonic speeds'
+const aerial = '天线'
+ES.aerial = 'The birds perched（栖息） upon the television aerial'
+const gnaw = '啃、咬'
+ES.gnaw = 'This thought gnawed her night and day'
+const peacook = '孔雀'
+const long = '渴望'
+ES.long = 'Oh, how she longed to win him to converse（交谈、谈心）'
+const formidable = '极其困难的'
+ES.formidable = 'The mathematics of the theory is too formidable'
+const dreadful = '可怕的'
+ES.dreadful = 'To her the humiliation（羞辱） seemed dreadful'
 likelihood n 可能性
 monstrous adj 可怕的
 appreciable adj 可估价的、可察觉的
