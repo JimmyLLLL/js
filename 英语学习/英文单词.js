@@ -261,153 +261,267 @@ const formidable = '极其困难的'
 ES.formidable = 'The mathematics of the theory is too formidable'
 const dreadful = '可怕的'
 ES.dreadful = 'To her the humiliation（羞辱） seemed dreadful'
-likelihood n 可能性
-monstrous adj 可怕的
-appreciable adj 可估价的、可察觉的
-whereby adj 靠什么
-ponder v 沉思
-discern v 看出、辨别
-inaugurate v 开始、使就职
-commence v 开始
-carry v 刊登
-reclaim v 开垦
-evolution n（天体的）形成
-sheriff n 警察局长
-sovereign n 君主
-reel v 卷、绕
-monarch n 君主
-mob v 聚众闹事
-bugle n 军号
-govern v 决定、支配
-hurricane n 飓风
-winding n 卷绕着的线
-sting n 剧痛 v 刺
-repel v 拒绝、使厌恶
-uphold v 举起
-administration n局（署、处）
-induction n 就职
-deliberate adj 深思熟虑的
-profound adj 深刻的
-trench n 深沟、战壕
-editorial n 社论
-conceive v 设想
-divine adj 神的
-serpent n 蛇（指大蛇、毒蛇）
-extravagant adj 奢侈的
-scorch v 烧焦
-heaven n 上帝、神
-counsel n 商议
-ware n 商品、货物
-gravel n 沙砾
-sardine n 沙丁鱼
-sift v 过滤
-uproar n 骚动、扰乱
-stroll n 散步、闲逛
-prose n 散文
-emission n 散发、传播
-mute n 弱音器
-commodity n 日用品
-routine adj 日常的 n 常规
-deem v 认为、相信
-awake v 认识到
-undertaking n 任务
-personnel n 人事部门
-pitch n 人造树脂
-hostage n 人质、抵押品
-thermal adj 热的、温泉的
-tropical adj 热带的
-concession n 让步，迁就
-combustion n 燃烧、氧化
-flock v 群集，聚集
-whisker n 连鬓胡子
-deficiency n 缺乏
-deficient adj 缺乏的
-claim n 权利，所有权
-scarcity n 缺乏
-late adj 去世不久的
-awful adj 威严的
-negligible adj 微不足道的
-majesty n 威严
-gleam n 微光
-prestige n 威望
-peril n 危机
-fro dv 往、去
-mesh n 网眼、筛孔
-trifle v 嬉耍、闲混
-crooked adj 弯的
-hull n 外壳、薄膜
-alien adj 外国的 n 外国人
-strange adj 外地的
-distort v 歪曲、扭曲
-twist v 歪曲、曲解
-ile n 瓦片
-elliptical adj 椭圆的、省略的
-haul v 拖拽、拖运
-hip n  臀部
-devour v 吞食
-inference n 推断的结果
-rational adj 推理的、适度的
-propulsion n 推进
-propel v 推进、推动
-overthrow v 推翻
-presumably adj 推测起来
-gather v 推断
-shove v 推断
-solidarity n 团结
-regiment n 团、军团
-patch n 补丁
-datagram n 数据电报
-Ultimate adj 最终的
-handy adj 有用的
-peeled adj 破去皮的
-chestnut n 板栗
-consortium n 财团、集团
-ruby n 红宝石
-archived adj 已归档的
-vulnerability n 缺陷
-blurry adj模糊的
-blurriness n 模糊
-resolution n 分辨率
-compensation n 补偿，赔偿金
-weppy adj 泪眼汪汪的
-composite n 复合材料
-bias n 偏见
-Summary adj 简要的
-texture n 质地、纹理
-defer ad 推迟的
-credentials n 证书
-orientation n 方向
-corresponds to 相对于
-portrait n 肖像、描写
-batch n 一批
-extract v 提取
-hospitably adv. 招待周到地；亲切地；善于款待地
-ungainly adj. 笨拙的；不雅的
-rejoice 高兴、庆祝
-plaintive 哀伤的
-villain 坏人
-barbarians 野蛮人
-canary n. 金丝雀
-bilious 坏脾气
-uneasiness 不安
-amiss 有毛病的
-perplexity 困惑
-grimy 肮脏的
-vain 徒劳的
-bethought 突然想起
-admonition 警告
-make off 逃走
-go off 离开
-pane 窗格
-thrust out 逐出、解雇
-stuffy 闷热的
-lodgings 住所
-storey 楼层
-fright 惊吓
-spare 吝惜
-disfigured 丑八怪
-triviality 浅薄
-prose 散文
-intensified 加强 
-present-day 当下的
-pitch 程度
+const likelihood = '可能性'
+ES.likelihood = 'There is no likelihood of that happening'
+const monstrous = '极度、畸形'
+ES.monstrous = 'This is often seen in monstrous plants'
+const appreciable = '可感知的'
+ES.appreciable = 'There is no appreciable difference'
+const whereby = '凭借'
+ES.whereby = 'She devised（设计、相出） a plan whereby they might escape'
+const ponder = '沉思'
+ES.ponder = 'I pondered a moment in sore perplexity（困惑）'
+const discern = '辨别'
+ES.discern = 'They could discern me in spite of（不顾） the fog(雾) '
+const inaugurate = '开幕'
+ES.inaugurate = 'The conference was inaugurated this morning'
+const commence = '开始'
+ES.commence = 'In the joking commences a rottenness（腐烂）'
+const reclaim = '重新改造'
+ES.reclaim = 'The method is to reclaim glass from old bottles'
+const evolution = '进化'
+ES.evolution = 'We call this process organic evolution'
+const sheriff = '警察局长,某某某长'
+ES.sheriff = 'The right wrist of the sheriff was all but（差一点） dislocated（脱臼）'
+const sovereign = '君主、至高无上的'
+ES.sovereign = 'This is the only and sovereign agent（起因）'
+const reel = '卷、绕'
+ES.reel = 'The angler（钓鱼者） reeled the fish in slowly'
+const monarch = '君主'
+ES.monarch = 'The monarch was ousted（取代、废黜） by a military coup'
+const mob = '聚众闹事、暴民'
+ES.mob = 'The angry mob lynched（处私刑） an innocent man'
+const bugle = '军号'
+ES.bugle = 'We hear the silver（清亮的） voices of heroic bugles'
+const govern = '管理'
+ES.govern = 'They governed the city with a heavy hand' 
+const hurricane = '飓风'
+ES.hurricane = 'Hurricanes never find people prepared'
+const sting = '剧痛,刺'
+ES.sting = 'My mustache stabbed and stung into my lips '
+const repel = '拒绝、使厌恶'
+ES.repel = 'Two like electric charges repel each other'
+const uphold = '支持、维护'
+ES.uphold = 'Yuan shih-kai once promised to uphold republican principles '
+const administration = '局（署、处）'
+ES.administration = 'Provincial administration was equally（同样的） black spot（黑斑）'
+const induction = '归纳'
+ES.induction = 'We pass to the induction step'
+const deliberate = '深思熟虑的'
+ES.deliberate = 'Deliberate in counsel(讨论) , prompt in action'
+const profound = '深刻的'
+ES.profound = 'He regarded it as profound philosophy（哲理）'
+const trench = '深沟、战壕'
+ES.trench = 'Orders came that we should spade（铲） the trench in an hour'
+const editorial = '社论'
+ES.editorial = 'The editorial voices the spirits of the young people'
+const conceive = '设想'
+ES.conceive = 'Could you conceive such a contingency（偶然性）'
+const divine = '神的'
+ES.divine = 'You have no divine right of purchase'
+const serpent = '蛇（指大蛇、毒蛇）'
+ES.serpent = 'In the sea two huge serpents were swimming'
+const extravagant = '奢侈的'
+ES.extravagant = 'He is too extravagant with his clothes'
+const scorch = '烧焦'
+ES.scorch = 'This stove（炉子） is really scorching'
+const counsel = '教诲'
+ES.counsel = 'A fool may give a wise man counsel '
+const ware = '商品、货物'
+ES.ware = 'This ware is suitable for decorative purpose but unsuitable for utility（实用的）'
+const gravel = '沙砾'
+ES.gravel = 'Sand and gravel may form bars（沙洲） within the channel '
+const sift = '过滤'
+ES.sift = 'Sift out the wheat from the chaff（谷壳）'
+const uproar = '骚动、扰乱'
+ES.uproar = 'He got away from the scene of uproar '
+const stroll = '散步、闲逛'
+ES.stroll = 'They were strolling up and down the veranda（走廊）'
+const emission = '散发、传播'
+ES.emission ='There was an audible emission of breath from the duke'
+const mute = '沉默'
+ES.mute = 'He remained(保持) as mute as a fish, too'
+const commodity = '日用品'
+ES.commodity = 'The value of commodities often fluctuates（波动）'
+const deem = '认为、相信'
+ES.deem ='I deem it an honour to accept your invitation'
+const awake = '认识到'
+ES.awake = 'Even when he was awake he was completely torpid（迟钝的）'
+const undertaking = '事业'
+ES.undertaking = 'He lent（借） his name to the undertaking'
+const personnel = '人相关'
+ES.personnel = 'Off limits to all unauthorized personnel'
+const hostage = '人质、抵押品'
+ES.hostage = 'The terrorists are holding three men hostage '
+const thermal = '热的'
+ES.thermal = 'Thermal conductivity varies（差异） for different gases '
+const tropical = '热带的'
+ES.tropical = 'The climate was by no means tropical'
+const concession = '让步，迁就'
+ES.concession = 'We made concessions for the sake（目的） of peace .'
+const combustion = '燃烧、氧化'
+ES.combustion = 'We might be tempted to think of combustion'
+const flock = '群集，聚集'
+const flockandherds = '牛羊/畜生'
+ES.flock = 'Insects can kill our flocks and herds '
+const whisker = '连鬓胡子'
+ES.whisker = 'That was a very large and whiskered man'
+const deficiency = '缺陷'
+ES.deficiency = 'Cosmetics（化妆品） do not cover up the deficiencies of nature'
+const deficient = '缺乏的'
+ES.deficient = 'The crops are suffering from deficient rain'
+const claim = '主张'
+ES.claim = 'Boniface had to moderate（降低） his claims'
+const scarcity = '缺乏'
+ES.scarcity = 'The scarcity of food forced prices up'
+const awful = '可怕的'
+ES.awful = 'The sun enveloped itself in awful darkness'
+const negligible = '微不足道的'
+ES.negligible = 'THe mass(质量) of the strip itself is negligible'
+const majesty = '威严'
+ES.majesty = 'This is the majesty and the meaning of this moment'
+const gleam = '微光'
+ES.gleam = 'The knife gleamed wickedly（恶劣地） in the moonlight'
+const prestige = '威望'
+ES.prestige = 'He has high prestige among the masses'
+const peril = '危机'
+ES.peril = 'He was haunted（受到困扰的） by his looming（若隐若现） perils'
+const mesh = '网眼、筛孔'
+ES.mesh = 'The net of heaven has large meshes , but it lets nothing through'
+const trifle = '小事'
+ES.trifle = 'Do not lose your temper over such a trifle' 
+const crook = '弯'
+ES.crook = 'She crooked her little finger as she drank her tea'
+const hull = '外壳、薄膜'
+ES.hull = 'The ship"s hull scraped（刮擦） along the side of the dock'
+const alien = '外国的'
+ES.alien = 'I can rule on the admissibility（入境资格） of aliens'
+const strange = '外地的'
+ES.strange = 'He knew he was alone in a strange land'
+const distort = '歪曲、扭曲'
+ES.distort = 'His sore（痛苦的） spirit distorted his face'
+const twist = '扭曲'
+ES.twist = 'I twisted my head round to reverse the car' 
+const elliptical = '椭圆的'
+ES.elliptical = 'The earth should be elliptical '
+const haul = '拖拽、拖运'
+ES.haul = 'They hauled in the rope with might and main（拼尽全力）'
+const hip = '臀部'
+ES.hip = 'His limbs（四肢） were paralysed（麻木的） from the hips'
+const devour = '吞食'
+ES.devour = 'Larger fish devour the smaller ones '
+const inference = '推断的结果'
+ES.inference ='This inference was drawn by Tom'
+const rational = '理性的'
+ES.rational = 'I"ll not answer（不愿意相信） for her being of the most rational' 
+const propulsion = '推进'
+ES.propulsion = 'The propulsion system consists of five f-1 engines'
+const propel = '推进、推动'
+ES.propel = 'The wind propels a sailing boat '
+const overthrow = '推翻'
+ES.overthrow = 'They are plotting to(密谋) overthrow the government'
+const presumably = '推测'
+ES.presumably = 'That presumably was not his original intention（目的）'
+const shove = '推'
+ES.shove = 'Why didn"t you give her a good shove '
+const solidarity = '团结'
+ES.solidarity = 'It was the middle-class female solidarity'
+const regiment = '组织、组织化'
+ES.regiment = 'The rural（农村的） communes（公社） were highly regimented'
+const ultimate = '最终的、基本原则'
+ES.ultimate = 'This had been an ultimate issue'
+const handy = '有用的'
+ES.handy = 'It may come in handy someday'
+const peeled = '破去皮的'
+ES.peeled = 'Bill laid down the egg he was peeling'
+const chestnut = '板栗'
+ES.chestnut = 'Neither was eager to pull our chestnuts out of the fire'
+const consortium = '集团'
+ES.consortium = 'They want to organize a consortium of labor parties'
+const archived = '归档'
+ES.archived = 'Keep the document in the archives'
+const vulnerability = '缺陷'
+ES.vulnerability = 'Saudi arabia obscures（遮蔽） its vulnerability by opaquenes（神秘莫测）'
+const blurry = '模糊的'
+ES.blurry = 'Everything else seems blurry'
+const resolution = '分辨率'
+ES.resolution = 'The early experiments were done with low resolution'
+const compensation = '补偿，赔偿金'
+ES.compensation = 'She is still pressing（坚持） her claim for compensation'
+const weppy = '泪眼汪汪的'
+const composite = '复合材料'
+ES.composite = 'The main classes of materials are metals, polymers（高聚物）, ceramics（陶瓷）, and composites'
+const bias = '偏见'
+ES.bias = 'My ignorance biased me against my teacher'
+const summary = '简要的／小结'
+ES.summary = 'There is a summary at the end of each chapter'
+const texture = '质地、纹理'
+ES.texture = 'Such soils vary in texture and fertility（肥沃度）'
+const defer = '推迟的'
+ES.defer = 'However, he got his indictment（判决） deferred'
+const credentials = '证件'
+ES.credentials = 'Please show your credentials'
+const orientation = '方向'
+ES.orientation = 'The arrangement（排列） must show a preferred（特定的） orientation'
+const corresponds_to = '相当于'
+ES.corresponds_to = 'The broad lines on the map correspond to roads'
+const portrait = '肖像、描写'
+ES.portrait = 'he portrait was his proudest possession'
+const batch = '一批'
+ES.batch = 'A batch of rolled steel was allocated（分配） to us'
+const extract = '提取'
+ES.extract = 'She read out extracts from his letters'
+const hospitably = '招待周到地'
+ES.hospitably = 'I was hospitably entertained . thank you'
+const ungainly = '无能的'
+ES.ungainly = 'When the ungainly man had left, he remarked（评论） hotly（激烈地） to the messenger '
+const rejoice = '高兴、庆祝'
+ES.rejoice = 'He rejoiced in the cabbage"s（白菜的） increasing size'
+const plaintive = '哀伤的'
+ES.plaintive = '"oh! that was years ago," said she, in a voice unlike her usual tones, so plaintive was it, and so soft'
+const villain = '坏人'
+ES.villain = 'Clyde was not a quadruple-dyed（彻头彻尾） villain'
+const barbarians = '野蛮人'
+ES.barbarians = 'Are you afraid to stay with barbarians'
+const bilious = '坏脾气'
+ES.bilious = 'His bilious temperament was apparent to all who heard him rant（咆哮） about his difficulties'
+const uneasiness = '不安'
+ES.uneasiness = 'Her secret source of uneasiness was tommy'
+const amiss = '有毛病的、不对头的'
+ES.amiss = 'Tell me, please, what is amiss '
+const perplexity = '困惑'
+ES.perplexity = 'I pondered（沉思） a moment in sore（程度大的） perplexity'
+const grimy = '肮脏的'
+ES.grimy = 'The blanket was warm, if grimy'
+const vain = '徒劳的'
+ES.vain = 'I will lose no time in vain regret '
+const bethought = '突然想起'
+ES.bethought = 'I bethought myself that i ought to write some letters'
+const admonition = '警告、劝告'
+ES.admonition = 'The youth rejected admonition and held to（坚持） his demand'
+const make_off = '逃走'
+ES.make_off = 'The robber made off with his booty（赃物） '
+const go_off = '离开'
+ES.go_off = 'He went off with his best friend"s wife'
+const pane = '窗格'
+ES.pane ='Their breath bloomed（模糊） the frosty（雾） pane'
+const thrust_out = '逐出、解雇'
+ES.thrust_out = 'He knew that he had been thrust out of the holy, the joyful, the blood-washed community'
+const lodgings = '住所'
+ES.lodgings = 'He took lodgings in the east end of london'
+const storey = '楼层'
+ES.storey = 'Houses-often three storeys high were built of stone'
+const fright = '惊吓'
+ES.fright = '"oh!" cried Grace in her fright '
+const disfigured = '丑八怪,丑化'
+ES.disfigured = 'Old towns disfigured by tasteless new buildings'
+const triviality = '浅薄、琐事'
+ES.triviality = 'Do not waste time on domestic（家里的、国内的） trivialities(琐事)'
+const prose = '散文'
+ES.prose = 'Her prose is far too mannered(娇柔做作) and self-conscious（难为情的）'
+const intensified = '加强'
+ES.intensified  = 'Blowing a fire intensifies the heat ' 
+const present_day = '当下的'
+ES.present_day = 'The present-day eccentricity（离心率） of the orbit（轨道） is small'
+const pitch = '倾斜'
+ES.pitch = 'They pitched in with contributions of money'
