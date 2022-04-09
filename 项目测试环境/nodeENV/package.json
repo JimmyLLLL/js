@@ -26,7 +26,7 @@
     "koa-static-cache": "^5.1.2",
     "koa2-cors": "^2.0.6",
     "md5": "^2.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mysql": "^2.16.0",
     "prettier": "^1.19.1"
   },
